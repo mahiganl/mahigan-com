@@ -1,0 +1,18 @@
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Thumbnails
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+.obsidian/
+*.swp
+*.swo
+
+# Logs
+*.log

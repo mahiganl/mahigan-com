@@ -1,0 +1,3 @@
+Several projects underway...
+
+Latest project published: an essay titled "Planned Human Obsolescence." Read it online at **[human-obsolescence.com](https://www.google.com/search?q=https://human-obsolescence.com)**. 

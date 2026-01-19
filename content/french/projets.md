@@ -1,0 +1,3 @@
+Plusieurs projets en cours...
+
+Dernier projet publié : un essai intitulé "L'obsolescence humaine programmée". À lire en ligne à [obsolescence-humaine.com](https://obsolescence-humaine.com/fr/). 
