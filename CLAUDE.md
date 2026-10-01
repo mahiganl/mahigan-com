@@ -21,7 +21,9 @@ et `script.js` (qui fixe aussi le titre : « Mahigan | écritures et intelligenc
 
 ## Accueil : « Deux soleils » vivant
 Le dessin est posé dans une toile au format exact de l'image (2400 × 1340), calée sous la barre
-de navigation et cadrée à 44 % de sa largeur (entre les deux soleils). Deux calques animés
+de navigation, qui montre **toute la hauteur du dessin** (soleils en haut, vague d'immeubles en
+bas — l'auteur y tient) ; si elle déborde sur les côtés, elle est cadrée à 44 % de sa largeur
+(entre les deux soleils), sans vide. Deux calques animés
 (`.hero-soleil-1`, `-2`, aux coordonnées des soleils peints : 39,2 % / 48,75 %, 11,2 %) font
 respirer les soleils à contretemps ; `.hero-ciel` fait dériver un voile de lumière ; un petit
 script déplace l'ensemble avec le curseur (ou l'inclinaison du téléphone). Tout s'arrête si
