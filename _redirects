@@ -1,0 +1,3 @@
+# Terminal terrestre : servi depuis son propre site Netlify (dépôt mahiganl/terminal-terrestre).
+/tt     /tt/                                              301
+/tt/*   https://terminal-terrestre.netlify.app/:splat     200
