@@ -113,6 +113,8 @@
             left: max(1.5rem, 20vw);
             top: calc(4rem + (100vh - 4rem) * 0.27);
         }
+        .hero-titre { width: fit-content; }   /* sous-titre centré sous MAHIGAN */
+        .hero-titre p { text-align: center; }
         .hero-bas {                         /* sur la portière noire */
             position: absolute;
             z-index: 10;
@@ -251,6 +253,7 @@
         </div>
 
         <div class="hero-texte">
+            <div class="hero-titre">
             <h1 class="font-sans font-bold text-5xl lg:text-6xl xl:text-7xl text-slate-100 mb-5 tracking-tight">
                 MAHIGAN
             </h1>
@@ -258,6 +261,7 @@
                 <span class="lang-fr">Écritures & intelligences</span>
                 <span class="lang-en">Writings & Intelligences</span>
             </p>
+            </div>
             <div class="flex flex-wrap gap-4">
                 <a href="#books" class="px-7 py-3 bg-violet-600 hover:bg-violet-500 text-white font-sans font-medium rounded-lg transition-all hover:shadow-lg hover:shadow-violet-500/25">
                     <span class="lang-fr">Découvrir les livres</span>
@@ -277,7 +281,7 @@
                 </svg>
             </a>
             <p class="hero-credit absolute right-6 top-0 text-xs text-slate-400">
-                <span class="lang-fr">Kolkata, 2013 &bull; Photo : Mahigan Lepage</span>
+                <span class="lang-fr">Kolkata, 2013 &bull; Photo: Mahigan Lepage</span>
                 <span class="lang-en">Kolkata, 2013 &bull; Photo: Mahigan Lepage</span>
             </p>
         </div>
