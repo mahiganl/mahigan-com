@@ -27,8 +27,10 @@ const travaux = [
     .map((f) => ({ src: `assets/book-covers/${f}`, sorties: [
       { fichier: `assets/book-covers/${f.replace(/\.(png|jpg)$/, '')}-600.jpg`, largeur: 600, format: 'image/jpeg', qualite: 0.84 },
     ] })),
-  { src: 'assets/project-picture/obsolescence-fr.png', sorties: [{ fichier: 'assets/project-picture/obsolescence-fr.jpg', largeur: 560, format: 'image/jpeg', qualite: 0.85 }] },
-  { src: 'assets/project-picture/obsolescence-en.png', sorties: [{ fichier: 'assets/project-picture/obsolescence-en.jpg', largeur: 560, format: 'image/jpeg', qualite: 0.85 }] },
+  // Dessin de L'obsolescence humaine programmée (sans titre, pour ne pas répéter celui de la carte) ;
+  // étoile ✦ de Gemini retouchée.
+  { src: 'assets/project-picture/sources/obsolescence-dessin.webp', retouche: { x: 1890, y: 1890, rayon: 50, decalage: -140 },
+    sorties: [{ fichier: 'assets/project-picture/obsolescence.jpg', largeur: 560, format: 'image/jpeg', qualite: 0.85 }] },
   { src: IW, sorties: [{ fichier: 'assets/project-picture/intelligent-writing.jpg', largeur: 560, format: 'image/jpeg', qualite: 0.85 }] },
 ];
 

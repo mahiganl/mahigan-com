@@ -32,7 +32,9 @@ l'appareil demande moins de mouvement. Si l'image change, recalculer ces coordon
 ## Projets
 Trois cartes, du plus récent au plus ancien : Terminal terrestre (/tt/, en français), L'écriture
 intelligente (intelligent-writing.com/fr/ et /en/), L'obsolescence humaine programmée
-(obsolescence-humaine.com / human-obsolescence.com).
+(obsolescence-humaine.com / human-obsolescence.com). Images de cartes **sans titre** (choix de
+l'auteur : cohérence, pas de répétition du titre de la carte) ; même image en FR et en EN.
+Les images de travail à haute résolution vont dans `assets/project-picture/sources/`.
 
 ## Photos
 Les photos d'iPhone peuvent être en HDR (PNG « Display P3 / PQ ») : elles s'affichent voilées
