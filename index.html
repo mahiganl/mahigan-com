@@ -105,12 +105,8 @@
             width: calc(var(--W) * 2);
             height: var(--H);
         }
-        .hero-parallax { position: absolute; inset: 0; will-change: transform; transform: scale(1.04); }
-        .hero-parallax img { display: block; width: 100%; height: 100%; animation: heroDerive 26s ease-in-out infinite alternate; }
-        @keyframes heroDerive {             /* très lente dérive, comme vue d'un véhicule */
-            from { transform: translate3d(-0.8%, 0, 0) scale(1); }
-            to   { transform: translate3d(0.8%, -0.4%, 0) scale(1.03); }
-        }
+        .hero-parallax { position: absolute; inset: 0; }      /* photo fixe ; ce sont les étincelles qui bougent */
+        .hero-parallax img { display: block; width: 100%; height: 100%; }
         .hero-texte {                       /* dans la nuit, ramené vers le centre */
             position: absolute;
             z-index: 10;
@@ -142,9 +138,6 @@
             }
             .hero-photo { left: var(--left); width: var(--W); }   /* la photo seule */
             .hero-texte { top: 6.5rem; left: 1.5rem; right: 1.5rem; }
-        }
-        @media (prefers-reduced-motion: reduce) {
-            .hero-parallax img { animation: none; }
         }
 
         /* Hide elements based on language */
@@ -606,28 +599,7 @@
     </div>
 
     <script src="script.js"></script>
-    <script>
-        // Accueil : la photo suit doucement le curseur (ou l'inclinaison du téléphone).
-        (() => {
-            const couche = document.querySelector('.hero-parallax');
-            if (!couche || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-            let cx = 0, cy = 0, x = 0, y = 0, actif = true;
-            const viser = (nx, ny) => { cx = Math.max(-1, Math.min(1, nx)); cy = Math.max(-1, Math.min(1, ny)); };
-            addEventListener('pointermove', (e) => viser(e.clientX / innerWidth * 2 - 1, e.clientY / innerHeight * 2 - 1), { passive: true });
-            addEventListener('deviceorientation', (e) => {
-                if (e.gamma == null) return;
-                viser(e.gamma / 25, (e.beta - 45) / 25);
-            }, { passive: true });
-            new IntersectionObserver(([e]) => { actif = e.isIntersecting; }).observe(couche.parentElement);
-            const boucle = () => {
-                if (actif) {
-                    x += (cx - x) * 0.05; y += (cy - y) * 0.05;
-                    couche.style.transform = `translate3d(${(-x * 18).toFixed(2)}px, ${(-y * 12).toFixed(2)}px, 0) scale(1.04)`;
-                }
-                requestAnimationFrame(boucle);
-            };
-            requestAnimationFrame(boucle);
-        })();
-    </script>
+    <!-- Étincelles : elles tombent de la meuleuse (photo d'accueil) le long de la page -->
+    <script src="assets/etincelles.js" defer></script>
 </body>
 </html>

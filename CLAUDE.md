@@ -40,7 +40,16 @@ nuit du site (#0f172a) — la photo se fond dans la page sans bord, et peut donc
 - Vérifié par mesure (luminosité de la photo sous chaque élément) de 375 px à 2560 px : tout est
   sur du noir pur. Refaire cette mesure si la mise en page de l'accueil change.
 - Écarté : photo pleine largeur (trop présente, texte collé dans le coin).
-- Animation : très lente dérive de la photo et profondeur au curseur ; rien si mouvement réduit.
+- **Photo fixe ; ce sont les étincelles qui bougent** (idée de l'auteur) : `assets/etincelles.js`.
+  Elles jaillissent par rafales du foyer lumineux à droite de la photo (une meuleuse : zone
+  x 80–96 %, y 20–42 % de la photo ; sur écran large, la photo est la moitié droite du
+  composite), retombent, refroidissent (blanc-jaune → orange → rouge). ~13 % sont des braises
+  légères (vie 8–52 s) qui descendent la page en se balançant et en pâlissant : réglé par
+  simulation pour ~100 étincelles dans l'accueil, ~25 le long d'« À propos », ~30 de « Livres »,
+  ~15 à « Projets », ~3 à « Contact » (poussières). Calque <canvas> fixe, sans clic, en coordonnées
+  de la page ; rien si l'appareil demande moins de mouvement. Si les sections changent beaucoup
+  de hauteur, refaire la simulation (même physique) pour garder cette décroissance.
+- Écartés : dérive lente de la photo et profondeur au curseur (remplacées par les étincelles).
 - Essayés et écartés : « Deux soleils » (version paysage de Gemini : suture visible ; portrait seul
   au centre : marges latérales). Le dessin original reste dans `assets/theme-picture/`.
 
