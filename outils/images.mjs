@@ -21,8 +21,19 @@ const travaux = [
   // Accueil : photo de nuit à Kolkata (iPhone 4S, 2013). Étalonnage : on retire la dominante verte
   // des noirs (point noir mesuré : 1, 13, 1), puis on relève les noirs jusqu'au bleu nuit du site
   // (#0f172a) : la photo se fond dans la page sans bord visible ; les lumières ne bougent pas.
+  { src: 'assets/theme-picture/sources/taxi-kolkata.jpg', etalonnage: { noir: [1, 13, 1], fond: [15, 23, 42] },
+    // Route prolongée vers la gauche (écrans larges) : image composite deux fois plus large,
+    // la photo à droite ; à gauche, les filés de la route (bande y 60–81,2 %) prolongés à partir
+    // des 20 % de gauche de la photo, en miroir (raccord continu) et étirés ; fondu en haut,
+    // bord bas net (le bas de la vitre), fondu vers l'extrême gauche.
+    route: { y0: 0.6, y1: 0.812, echantillon: 0.2, largeur: 1.0, fonduHaut: 0.4, fonduGauche: 0.18 },
+    sorties: [
+    { fichier: 'assets/theme-picture/taxi-kolkata-route-3200.webp', largeur: 3200, format: 'image/webp', qualite: 0.82 },
+    { fichier: 'assets/theme-picture/taxi-kolkata-route-1800.webp', largeur: 1800, format: 'image/webp', qualite: 0.82 },
+    { fichier: 'assets/theme-picture/taxi-kolkata-route-2400.jpg', largeur: 2400, format: 'image/jpeg', qualite: 0.84 },
+  ] },
+  // La photo seule (écrans en hauteur : cadrée sur le taxi et les lumières).
   { src: 'assets/theme-picture/sources/taxi-kolkata.jpg', etalonnage: { noir: [1, 13, 1], fond: [15, 23, 42] }, sorties: [
-    { fichier: 'assets/theme-picture/taxi-kolkata-2400.webp', largeur: 2400, format: 'image/webp', qualite: 0.82 },
     { fichier: 'assets/theme-picture/taxi-kolkata-1280.webp', largeur: 1280, format: 'image/webp', qualite: 0.82 },
     { fichier: 'assets/theme-picture/taxi-kolkata-1600.jpg', largeur: 1600, format: 'image/jpeg', qualite: 0.84 },
   ] },
@@ -96,6 +107,32 @@ const charger = (s) => new Promise((ok, ko) => { const i = new Image(); i.onload
       g.addColorStop(0, 'rgba(0,0,0,1)'); g.addColorStop(1, 'rgba(0,0,0,0)');
       p.globalCompositeOperation = 'destination-in'; p.fillStyle = g; p.fillRect(0, 0, cote, cote);
       c.drawImage(piece, x - r2, y - r2);
+    }
+    if (t.route) {
+      const { y0, y1, echantillon, largeur, fonduHaut, fonduGauche } = t.route;
+      const W = base.width, H = base.height, E = Math.round(W * largeur);
+      const ya = Math.round(y0 * H), hb = Math.round((y1 - y0) * H), sw = Math.round(echantillon * W);
+      const fond = t.etalonnage ? t.etalonnage.fond : [0, 0, 0];
+      // bande prolongée : échantillon en miroir, étiré sur toute la largeur E
+      const bande = document.createElement('canvas'); bande.width = E; bande.height = hb;
+      const b = bande.getContext('2d');
+      b.save(); b.translate(E, 0); b.scale(-1, 1);
+      b.drawImage(base, 0, ya, sw, hb, 0, 0, E, hb);
+      b.restore();
+      b.globalCompositeOperation = 'destination-in';
+      const gh = b.createLinearGradient(0, 0, E, 0);
+      gh.addColorStop(0, 'rgba(0,0,0,0)'); gh.addColorStop(fonduGauche, 'rgba(0,0,0,1)'); gh.addColorStop(1, 'rgba(0,0,0,1)');
+      b.fillStyle = gh; b.fillRect(0, 0, E, hb);
+      const gv = b.createLinearGradient(0, 0, 0, hb);
+      gv.addColorStop(0, 'rgba(0,0,0,0)'); gv.addColorStop(fonduHaut, 'rgba(0,0,0,1)'); gv.addColorStop(0.985, 'rgba(0,0,0,1)'); gv.addColorStop(1, 'rgba(0,0,0,0)');
+      b.fillStyle = gv; b.fillRect(0, 0, E, hb);
+      // composite : nuit à gauche + bande, photo à droite
+      const comp = document.createElement('canvas'); comp.width = W + E; comp.height = H;
+      const k = comp.getContext('2d');
+      k.fillStyle = 'rgb(' + fond.join(',') + ')'; k.fillRect(0, 0, W + E, H);
+      k.drawImage(bande, 0, ya);
+      k.drawImage(base, E, 0);
+      base = comp;
     }
     for (const s of t.sorties) {
       const l = Math.min(s.largeur, base.width), h = Math.round(base.height * l / base.width);

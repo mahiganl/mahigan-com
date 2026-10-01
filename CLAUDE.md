@@ -27,9 +27,13 @@ nuit du site (#0f172a) — la photo se fond dans la page sans bord, et peut donc
 **Règle de l'auteur : tout ce qui est surimprimé doit être sur une zone noire de la photo.**
 - **Écran large** (choix de l'auteur) : la photo est **réduite** (≈ 70 % de la largeur, jamais plus
   haute que l'écran) et **ancrée en bas à droite** ; le haut et la gauche sont une nuit
-  « artificielle » (le fond du site). Titre, sous-titre et boutons sont dans cette nuit, à gauche,
-  vers le milieu de la hauteur (`.hero-texte` : left 9vw, top 26 % sous la barre) ; leur taille
-  suit la largeur (vw).
+  « artificielle » (le fond du site). La **route** (filés verdâtres, bande y 60–81 % de la photo)
+  est **prolongée sur toute la largeur** vers la gauche : image composite deux fois plus large
+  (`taxi-kolkata-route-*`, produite par `outils/images.mjs`, option `route` : les 20 % de gauche
+  de la photo en miroir puis étirés, fondu en haut et à l'extrême gauche, bord bas net).
+  Titre, sous-titre et boutons sont dans la nuit, ramenés vers le centre (`.hero-texte` : left
+  20vw, top 27 % sous la barre) ; leur taille suit la largeur (vw). L'auteur accepte qu'ils
+  chevauchent un peu les motifs.
 - Flèche et crédit (« Kolkata, 2013 • Photo : Mahigan Lepage ») : bande noire de la portière
   (y ≈ 86 % de la photo).
 - Écrans en hauteur : photo cadrée sur le taxi et les lumières dans le bas, texte au-dessus.

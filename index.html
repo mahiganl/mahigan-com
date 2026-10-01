@@ -98,11 +98,11 @@
             min-height: 34rem;
             background: #0f172a;
         }
-        .hero-photo {
+        .hero-photo {                       /* écran large : composite deux fois plus large (route prolongée) */
             position: absolute;
             top: var(--top);
-            left: var(--left);
-            width: var(--W);
+            left: calc(var(--left) - var(--W));
+            width: calc(var(--W) * 2);
             height: var(--H);
         }
         .hero-parallax { position: absolute; inset: 0; will-change: transform; transform: scale(1.04); }
@@ -111,11 +111,11 @@
             from { transform: translate3d(-0.8%, 0, 0) scale(1); }
             to   { transform: translate3d(0.8%, -0.4%, 0) scale(1.03); }
         }
-        .hero-texte {                       /* dans la nuit, à gauche, vers le milieu de la hauteur */
+        .hero-texte {                       /* dans la nuit, ramené vers le centre */
             position: absolute;
             z-index: 10;
-            left: max(1.5rem, 9vw);
-            top: calc(4rem + (100vh - 4rem) * 0.26);
+            left: max(1.5rem, 20vw);
+            top: calc(4rem + (100vh - 4rem) * 0.27);
         }
         .hero-bas {                         /* sur la portière noire */
             position: absolute;
@@ -140,6 +140,7 @@
                 --top: calc(100vh - var(--H) * 0.88);
                 height: max(100vh, calc(var(--top) + var(--H) * 0.97));
             }
+            .hero-photo { left: var(--left); width: var(--W); }   /* la photo seule */
             .hero-texte { top: 6.5rem; left: 1.5rem; right: 1.5rem; }
         }
         @media (prefers-reduced-motion: reduce) {
@@ -242,12 +243,16 @@
         <div class="hero-photo">
             <div class="hero-parallax">
                 <picture>
+                    <!-- Écrans en hauteur : la photo seule -->
+                    <source media="(max-aspect-ratio: 1/1)" type="image/webp" srcset="assets/theme-picture/taxi-kolkata-1280.webp">
+                    <source media="(max-aspect-ratio: 1/1)" srcset="assets/theme-picture/taxi-kolkata-1600.jpg">
+                    <!-- Écrans larges : composite, route prolongée vers la gauche (photo dans la moitié droite) -->
                     <source type="image/webp"
-                            srcset="assets/theme-picture/taxi-kolkata-1280.webp 1280w, assets/theme-picture/taxi-kolkata-2400.webp 2400w"
-                            sizes="max(100vw, 167vw)">
-                    <img src="assets/theme-picture/taxi-kolkata-1600.jpg"
+                            srcset="assets/theme-picture/taxi-kolkata-route-1800.webp 1800w, assets/theme-picture/taxi-kolkata-route-3200.webp 3200w"
+                            sizes="140vw">
+                    <img src="assets/theme-picture/taxi-kolkata-route-2400.jpg"
                          alt="Un taxi jaune filé dans la nuit, vu à travers une vitre de voiture mouillée, Kolkata"
-                         width="2400" height="1800" fetchpriority="high">
+                         width="3200" height="1200" fetchpriority="high">
                 </picture>
             </div>
         </div>
