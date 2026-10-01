@@ -24,7 +24,7 @@
 
   // Zone source, en coordonnées de la photo (x, y en fraction) : le foyer lumineux à droite.
   // Sur écran large, l'image est un composite deux fois plus large (photo dans la moitié droite).
-  const SOURCE = { x0: 0.80, x1: 0.96, y0: 0.20, y1: 0.42 };
+  const SOURCE = { x0: 0.70, x1: 0.97, y0: 0.14, y1: 0.48 };
   const source = () => {
     const r = photo.getBoundingClientRect();
     const composite = r.width / r.height > 2;       // 2 × 4:3 = 8:3 ≈ 2,67 ; photo seule = 1,33
@@ -50,7 +50,7 @@
         // Braises : vie de 8 à 52 s, surtout courte ; réglée par simulation pour qu'il en reste
         // ~25 le long d'« À propos », ~30 de « Livres », ~15 à « Projets », ~3 à « Contact ».
         vie: braise ? 8 + 44 * Math.pow(Math.random(), 2.2) : 0.5 + Math.random() * 2.2,
-        taille: braise ? 2.2 + Math.random() * 1.8 : 3 + Math.random() * 3,   // épaisseur à la naissance (px)
+        taille: braise ? 2.7 + Math.random() * 2.2 : 3.8 + Math.random() * 3.7,   // épaisseur à la naissance (px)
         gravite: braise ? 70 : 260,
         frein: braise ? 0.75 : 1.1,
         phase: Math.random() * Math.PI * 2,

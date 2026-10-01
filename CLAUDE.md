@@ -41,9 +41,9 @@ nuit du site (#0f172a) — la photo se fond dans la page sans bord, et peut donc
   sur du noir pur. Refaire cette mesure si la mise en page de l'accueil change.
 - Écarté : photo pleine largeur (trop présente, texte collé dans le coin).
 - **Photo fixe ; ce sont les étincelles qui bougent** (idée de l'auteur) : `assets/etincelles.js`.
-  Grosses à la naissance (3–6 px, halo doux, pour se confondre avec les éclats de la photo), elles
+  Grosses à la naissance (4–7,5 px, halo doux, pour se confondre avec les éclats de la photo), elles
   rapetissent en s'éteignant. Elles jaillissent par rafales du foyer lumineux (une meuleuse : zone
-  x 80–96 %, y 20–42 % de la photo ; sur écran large, la photo est la moitié droite du
+  x 70–97 %, y 14–48 % de la photo ; sur écran large, la photo est la moitié droite du
   composite), retombent, refroidissent (blanc-jaune → orange → rouge). ~13 % sont des braises
   légères (vie 8–52 s) qui descendent la page en se balançant et en pâlissant : réglé par
   simulation pour ~100 étincelles dans l'accueil, ~25 le long d'« À propos », ~30 de « Livres »,
