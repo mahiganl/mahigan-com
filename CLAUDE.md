@@ -25,15 +25,17 @@ Source : `assets/theme-picture/sources/taxi-kolkata.jpg`. `outils/images.mjs` l'
 dominante verte des noirs retirée (point noir 1, 13, 1), puis noirs relevés exactement au bleu
 nuit du site (#0f172a) — la photo se fond dans la page sans bord, et peut donc déborder.
 **Règle de l'auteur : tout ce qui est surimprimé doit être sur une zone noire de la photo.**
-- Titre, sous-titre, boutons : zone noire du haut à gauche (x < 40 %, y ≈ 14–38 % de la photo),
-  positionnés en coordonnées de la photo (`--top`, `--H`) ; sur écran large, leur taille suit la
-  largeur (vw) pour rester dans cette zone.
+- **Écran large** (choix de l'auteur) : la photo est **réduite** (≈ 70 % de la largeur, jamais plus
+  haute que l'écran) et **ancrée en bas à droite** ; le haut et la gauche sont une nuit
+  « artificielle » (le fond du site). Titre, sous-titre et boutons sont dans cette nuit, à gauche,
+  vers le milieu de la hauteur (`.hero-texte` : left 9vw, top 26 % sous la barre) ; leur taille
+  suit la largeur (vw).
 - Flèche et crédit (« Kolkata, 2013 • Photo : Mahigan Lepage ») : bande noire de la portière
-  (y ≈ 86 %).
+  (y ≈ 86 % de la photo).
 - Écrans en hauteur : photo cadrée sur le taxi et les lumières dans le bas, texte au-dessus.
 - Vérifié par mesure (luminosité de la photo sous chaque élément) de 375 px à 2560 px : tout est
-  sur du noir (sauf à 900 × 700, où un bouton effleure un halo). Refaire cette mesure si la mise
-  en page de l'accueil change.
+  sur du noir pur. Refaire cette mesure si la mise en page de l'accueil change.
+- Écarté : photo pleine largeur (trop présente, texte collé dans le coin).
 - Animation : très lente dérive de la photo et profondeur au curseur ; rien si mouvement réduit.
 - Essayés et écartés : « Deux soleils » (version paysage de Gemini : suture visible ; portrait seul
   au centre : marges latérales). Le dessin original reste dans `assets/theme-picture/`.

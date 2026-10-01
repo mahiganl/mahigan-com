@@ -82,20 +82,20 @@
 
         /* ——— Accueil : Kolkata, la nuit (photo, iPhone 4S, 2013) ———
            Les noirs de la photo ont été étalonnés sur le fond du site (#0f172a) : elle se fond dans
-           la page sans bord. Tout ce qui est surimprimé (titre, boutons, crédit, flèche) est placé
-           sur une zone noire de la photo, en coordonnées de la photo :
-             - texte : zone noire en haut à gauche (x < 40 %, y 13–38 %) ;
-             - crédit et flèche : bande noire du bas (portière, y > 84 %).
-           --W / --H : taille de la photo (4:3) ; --top : sa position verticale. */
+           la page sans bord. Elle est réduite et poussée en bas à droite ; le texte est dans la nuit
+           (le fond), à gauche ; crédit et flèche sur la bande noire de la portière (y > 84 %).
+           --W / --H : taille de la photo (4:3) ; --left / --top : sa position. */
         .hero {
-            --W: 100vw;
+            /* Écran large : photo réduite (≈ 70 % de la largeur, jamais plus haute que l'écran),
+               ancrée en bas à droite ; le reste est une nuit « artificielle » (le fond du site). */
+            --W: min(70vw, calc((100vh - 4rem) * 1.24));
             --H: calc(var(--W) * 0.75);
-            /* centrée sous la barre, mais la ligne y = 13 % ne monte jamais sous la barre (4rem) */
-            --top: clamp(calc(4rem - var(--H) * 0.13), calc((100vh + 4rem) / 2 - var(--H) / 2), calc(100vh - var(--H) * 0.84));
-            --left: 0px;
+            --left: calc(102vw - var(--W));
+            --top: calc(100vh - var(--H) * 0.97);
             position: relative;
             overflow: hidden;
-            height: max(100vh, calc(var(--top) + var(--H) * 0.97));
+            height: 100vh;
+            min-height: 34rem;
             background: #0f172a;
         }
         .hero-photo {
@@ -111,11 +111,11 @@
             from { transform: translate3d(-0.8%, 0, 0) scale(1); }
             to   { transform: translate3d(0.8%, -0.4%, 0) scale(1.03); }
         }
-        .hero-texte {
+        .hero-texte {                       /* dans la nuit, à gauche, vers le milieu de la hauteur */
             position: absolute;
             z-index: 10;
-            left: max(1.5rem, 6vw);
-            top: calc(var(--top) + var(--H) * 0.145);
+            left: max(1.5rem, 9vw);
+            top: calc(4rem + (100vh - 4rem) * 0.26);
         }
         .hero-bas {                         /* sur la portière noire */
             position: absolute;
@@ -138,6 +138,7 @@
                 --W: 167vw;
                 --left: calc(var(--W) * -0.25);
                 --top: calc(100vh - var(--H) * 0.88);
+                height: max(100vh, calc(var(--top) + var(--H) * 0.97));
             }
             .hero-texte { top: 6.5rem; left: 1.5rem; right: 1.5rem; }
         }
