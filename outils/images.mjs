@@ -31,7 +31,9 @@ const travaux = [
   // étoile ✦ de Gemini retouchée.
   { src: 'assets/project-picture/sources/obsolescence-dessin.webp', retouche: { x: 1890, y: 1890, rayon: 50, decalage: -140 },
     sorties: [{ fichier: 'assets/project-picture/obsolescence.jpg', largeur: 560, format: 'image/jpeg', qualite: 0.85 }] },
-  { src: IW, sorties: [{ fichier: 'assets/project-picture/intelligent-writing.jpg', largeur: 560, format: 'image/jpeg', qualite: 0.85 }] },
+  // Couverture de L'écriture intelligente ; étoile ✦ de Gemini retouchée.
+  { src: IW, retouche: { x: 1938, y: 1940, rayon: 52, decalage: -150 },
+    sorties: [{ fichier: 'assets/project-picture/intelligent-writing.jpg', largeur: 560, format: 'image/jpeg', qualite: 0.85 }] },
 ];
 
 const url = (p) => 'file://' + (path.isAbsolute(p) ? p : path.join(RACINE, p)).split('/').map(encodeURIComponent).join('/');
