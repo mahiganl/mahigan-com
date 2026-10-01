@@ -42,16 +42,14 @@ nuit du site (#0f172a) — la photo se fond dans la page sans bord, et peut donc
 - Écarté : photo pleine largeur (trop présente, texte collé dans le coin).
 - **Photo fixe ; ce sont les étincelles qui bougent** (idée de l'auteur) : `assets/etincelles.js`.
   Grosses à la naissance (4–7,5 px, halo doux, pour se confondre avec les éclats de la photo), elles
-  rapetissent en s'éteignant. Elles **fusent comme d'une meuleuse** (pas en feu d'artifice,
-  demande de l'auteur) : par jets de 0,3 à 1,8 s séparés de pauses, chacun d'un point de contact
-  tiré dans le foyer lumineux (zone x 76–99 %, y 14–48 % de la photo ; sur écran large, la photo
-  est la moitié droite du composite), en cône étroit vers la gauche (de légèrement montant à
-  plongeant), traits rapides que la pesanteur courbe ; elles refroidissent (blanc-jaune → orange
-  → rouge). ~13 % sont des braises
-  légères (vie 8–52 s, vitesse limite de chute ≈ 93 px/s, à garder) qui descendent la page en se balançant et en pâlissant : réglé par
+  rapetissent en s'éteignant. Elles jaillissent par rafales du foyer lumineux (une meuleuse : zone
+  x 76–99 %, y 14–48 % de la photo ; sur écran large, la photo est la moitié droite du
+  composite), retombent, refroidissent (blanc-jaune → orange → rouge). ~13 % sont des braises
+  légères (vie 8–52 s) qui descendent la page en se balançant et en pâlissant : réglé par
   simulation pour ~100 étincelles dans l'accueil, ~25 le long d'« À propos », ~30 de « Livres »,
   ~15 à « Projets », ~3 à « Contact » (poussières). Calque <canvas> fixe, sans clic, en coordonnées
-  de la page ; rien si l'appareil demande moins de mouvement. Si les sections changent beaucoup
+  de la page ; rien si l'appareil demande moins de mouvement. Essayé et écarté : jets de meuleuse
+  (cône étroit, traits rapides) — « trop intense » pour l'auteur ; garder les gerbes. Si les sections changent beaucoup
   de hauteur, refaire la simulation (même physique) pour garder cette décroissance.
 - Écartés : dérive lente de la photo et profondeur au curseur (remplacées par les étincelles).
 - Essayés et écartés : « Deux soleils » (version paysage de Gemini : suture visible ; portrait seul
