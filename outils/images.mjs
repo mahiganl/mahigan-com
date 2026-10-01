@@ -12,28 +12,19 @@ import { fileURLToPath } from 'node:url';
 const RACINE = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const IW = path.resolve(RACINE, '../../intelligent-writing/public/images/cover.png');
-// « Deux soleils » dans sa forme d'origine (portrait), pour les écrans en hauteur.
-const DEUX_SOLEILS_PORTRAIT = path.resolve(RACINE, '../../obsolescence-site/assets/colored-drawings/chapter 4.png');
 
 // Étoile ✦ (filigrane Gemini) dans « Deux soleils » : remplacée par l'aquarelle située à sa
 // gauche, avec un masque radial adouci.
 const ETOILE = { x: 2640, y: 1424, rayon: 62, decalage: -140 };
 
 const travaux = [
-  // « Deux soleils » en paysage : agrandi par Gemini à partir du portrait d'origine, qui occupe la
-  // bande centrale (x ≈ 830–1900) et est plus sombre (~6 %) que les côtés ajoutés. On égalise les
-  // côtés sur le centre (le dessin d'origine reste intact), colonne par colonne, en fondu.
-  { src: 'assets/theme-picture/Deux soleils.png', retouche: ETOILE,
-    egaliser: { y0: 0.22, y1: 0.62, ref: [960, 1780], lissage: 70 }, sorties: [
-    { fichier: 'assets/theme-picture/deux-soleils-2400.webp', largeur: 2400, format: 'image/webp', qualite: 0.8 },
-    { fichier: 'assets/theme-picture/deux-soleils-1280.webp', largeur: 1280, format: 'image/webp', qualite: 0.8 },
-    { fichier: 'assets/theme-picture/deux-soleils-1600.jpg', largeur: 1600, format: 'image/jpeg', qualite: 0.82 },
-  ] },
-  // Portrait d'origine (écrans en hauteur) ; étoile ✦ à cheval sur le bord des immeubles,
-  // recouverte par une pièce prélevée le long de ce bord (en diagonale).
-  { src: DEUX_SOLEILS_PORTRAIT, retouche: { x: 1677, y: 2285, rayon: 52, decalage: -105, decalageY: -105 }, sorties: [
-    { fichier: 'assets/theme-picture/deux-soleils-portrait-1200.webp', largeur: 1200, format: 'image/webp', qualite: 0.8 },
-    { fichier: 'assets/theme-picture/deux-soleils-portrait-1200.jpg', largeur: 1200, format: 'image/jpeg', qualite: 0.82 },
+  // Accueil : photo de nuit à Kolkata (iPhone 4S, 2013). Étalonnage : on retire la dominante verte
+  // des noirs (point noir mesuré : 1, 13, 1), puis on relève les noirs jusqu'au bleu nuit du site
+  // (#0f172a) : la photo se fond dans la page sans bord visible ; les lumières ne bougent pas.
+  { src: 'assets/theme-picture/sources/taxi-kolkata.jpg', etalonnage: { noir: [1, 13, 1], fond: [15, 23, 42] }, sorties: [
+    { fichier: 'assets/theme-picture/taxi-kolkata-2400.webp', largeur: 2400, format: 'image/webp', qualite: 0.82 },
+    { fichier: 'assets/theme-picture/taxi-kolkata-1280.webp', largeur: 1280, format: 'image/webp', qualite: 0.82 },
+    { fichier: 'assets/theme-picture/taxi-kolkata-1600.jpg', largeur: 1600, format: 'image/jpeg', qualite: 0.84 },
   ] },
   ...['peuplement.jpg', 'big-bang-city.png', 'fleuve-colere.jpg', 'fuites-mineures.jpg', 'coulees.jpg', 'relief.png', 'surqualifie-lettres.jpg']
     .map((f) => ({ src: `assets/book-covers/${f}`, sorties: [
@@ -83,6 +74,15 @@ const charger = (s) => new Promise((ok, ko) => { const i = new Image(); i.onload
       for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
         const q = (y * W + x) * 4, g = gain[x];
         d[q] = d[q] * g; d[q + 1] = d[q + 1] * g; d[q + 2] = d[q + 2] * g;
+      }
+      c.putImageData(img, 0, 0);
+    }
+    if (t.etalonnage) {
+      const { noir, fond } = t.etalonnage;
+      const img = c.getImageData(0, 0, base.width, base.height), d = img.data;
+      for (let q = 0; q < d.length; q += 4) for (let k = 0; k < 3; k++) {
+        const v = Math.max(0, d[q + k] - noir[k]) * 255 / (255 - noir[k]);   // point noir neutre
+        d[q + k] = fond[k] + v * (255 - fond[k]) / 255;                     // noirs → bleu nuit
       }
       c.putImageData(img, 0, 0);
     }

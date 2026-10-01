@@ -19,22 +19,24 @@ et `script.js` (qui fixe aussi le titre : « Mahigan | écritures et intelligenc
   `mahiganl/terminal-terrestre`). **Ne pas ajouter de règle `/tt → /tt/`** (boucle).
 - `robots.txt` — signale le plan du site de Terminal terrestre.
 
-## Accueil : « Deux soleils » vivant
-Deux versions du dessin, plein cadre (jamais de marges sur les côtés — l'auteur y tient) :
-- **Écrans larges** : la version paysage (agrandie par Gemini à partir du portrait). Le portrait
-  d'origine y occupe la bande centrale (x ≈ 830–1900 sur 2752), plus sombre que les côtés
-  ajoutés : `outils/images.mjs` **égalise** les côtés sur le centre (colonne par colonne, en
-  fondu) pour effacer la suture. Toile 2400 × 1340 calée sous la barre, qui montre toute la
-  hauteur du dessin (soleils en haut, vague en bas) ; cadrée à 44 % si elle déborde.
-  Soleils animés : 39,2 % / 48,75 %, 11,2 %, largeur 12 %.
-- **Écrans en hauteur** (`max-aspect-ratio: 4/5`, téléphones) : le **portrait d'origine**
-  (`../../obsolescence-site/assets/colored-drawings/chapter 4.png`, étoile ✦ retouchée), où la
-  vague d'immeubles est grande. Cadré à 36 %. Soleils : 23,4 % / 48 %, 11 %, largeur 26 %.
-- Essayé et écarté : le portrait seul au centre sur grand écran (grosses marges latérales).
-Animation : les soleils respirent à contretemps, `.hero-ciel` fait dériver un voile de lumière,
-un petit script déplace l'ensemble avec le curseur (ou l'inclinaison du téléphone). Tout
-s'arrête si l'appareil demande moins de mouvement. Si une image change, recalculer les
-coordonnées des soleils.
+## Accueil : Kolkata, la nuit
+Photo de l'auteur (iPhone 4S, Kolkata, 2013) : un taxi jaune filé derrière une vitre mouillée.
+Source : `assets/theme-picture/sources/taxi-kolkata.jpg`. `outils/images.mjs` l'**étalonne** :
+dominante verte des noirs retirée (point noir 1, 13, 1), puis noirs relevés exactement au bleu
+nuit du site (#0f172a) — la photo se fond dans la page sans bord, et peut donc déborder.
+**Règle de l'auteur : tout ce qui est surimprimé doit être sur une zone noire de la photo.**
+- Titre, sous-titre, boutons : zone noire du haut à gauche (x < 40 %, y ≈ 14–38 % de la photo),
+  positionnés en coordonnées de la photo (`--top`, `--H`) ; sur écran large, leur taille suit la
+  largeur (vw) pour rester dans cette zone.
+- Flèche et crédit (« Kolkata, 2013 • Photo : Mahigan Lepage ») : bande noire de la portière
+  (y ≈ 86 %).
+- Écrans en hauteur : photo cadrée sur le taxi et les lumières dans le bas, texte au-dessus.
+- Vérifié par mesure (luminosité de la photo sous chaque élément) de 375 px à 2560 px : tout est
+  sur du noir (sauf à 900 × 700, où un bouton effleure un halo). Refaire cette mesure si la mise
+  en page de l'accueil change.
+- Animation : très lente dérive de la photo et profondeur au curseur ; rien si mouvement réduit.
+- Essayés et écartés : « Deux soleils » (version paysage de Gemini : suture visible ; portrait seul
+  au centre : marges latérales). Le dessin original reste dans `assets/theme-picture/`.
 
 ## Projets
 Trois cartes, du plus récent au plus ancien : Terminal terrestre (/tt/, en français), L'écriture

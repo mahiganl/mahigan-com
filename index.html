@@ -18,7 +18,7 @@
     <meta property="og:image" content="https://mahigan.com/assets/partage.jpg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Deux soleils, dessin de Mahigan Lepage, avec le titre MAHIGAN — Écritures et intelligences">
+    <meta property="og:image:alt" content="MAHIGAN — Écritures et intelligences, sur une photo de nuit à Kolkata : un taxi jaune filé derrière une vitre mouillée">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Mahigan | écritures et intelligences">
     <meta name="twitter:description" content="Livres, essais et projets d'écriture numérique de Mahigan Lepage.">
@@ -80,98 +80,69 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes zoomOut {
-            from { transform: scale(1.15); }
-            to { transform: scale(1); }
+        /* ——— Accueil : Kolkata, la nuit (photo, iPhone 4S, 2013) ———
+           Les noirs de la photo ont été étalonnés sur le fond du site (#0f172a) : elle se fond dans
+           la page sans bord. Tout ce qui est surimprimé (titre, boutons, crédit, flèche) est placé
+           sur une zone noire de la photo, en coordonnées de la photo :
+             - texte : zone noire en haut à gauche (x < 40 %, y 13–38 %) ;
+             - crédit et flèche : bande noire du bas (portière, y > 84 %).
+           --W / --H : taille de la photo (4:3) ; --top : sa position verticale. */
+        .hero {
+            --W: 100vw;
+            --H: calc(var(--W) * 0.75);
+            /* centrée sous la barre, mais la ligne y = 13 % ne monte jamais sous la barre (4rem) */
+            --top: clamp(calc(4rem - var(--H) * 0.13), calc((100vh + 4rem) / 2 - var(--H) / 2), calc(100vh - var(--H) * 0.84));
+            --left: 0px;
+            position: relative;
+            overflow: hidden;
+            height: max(100vh, calc(var(--top) + var(--H) * 0.97));
+            background: #0f172a;
         }
-
-        .hero-zoom {
-            animation: zoomOut 12s ease-out forwards;
-        }
-
-        /* ——— « Deux soleils » vivant ——— */
-        .hero-scene { overflow: hidden; }
-        .hero-parallax {
+        .hero-photo {
             position: absolute;
-            inset: 0;
-            transform: scale(1.04);   /* marge pour le déplacement au curseur */
-            will-change: transform;
+            top: var(--top);
+            left: var(--left);
+            width: var(--W);
+            height: var(--H);
         }
-        /* Toile au format exact du dessin (2400 × 1340) : toute sa hauteur tient entre la barre de
-           navigation et le bas de l'écran (soleils en haut, vague d'immeubles en bas). Si l'écran est
-           plus large que le dessin, la toile s'élargit et c'est le bas qui est rogné. Si le dessin
-           déborde sur les côtés (téléphone), il est cadré entre les deux soleils (44 % de sa largeur),
-           sans jamais laisser de vide. Les soleils animés restent posés sur les soleils peints. */
-        .hero-toile {
-            --w: max(100vw, calc((100vh - 4rem) * 1.791));
+        .hero-parallax { position: absolute; inset: 0; will-change: transform; transform: scale(1.04); }
+        .hero-parallax img { display: block; width: 100%; height: 100%; animation: heroDerive 26s ease-in-out infinite alternate; }
+        @keyframes heroDerive {             /* très lente dérive, comme vue d'un véhicule */
+            from { transform: translate3d(-0.8%, 0, 0) scale(1); }
+            to   { transform: translate3d(0.8%, -0.4%, 0) scale(1.03); }
+        }
+        .hero-texte {
             position: absolute;
-            top: 4rem;
-            width: var(--w);
-            height: calc(var(--w) / 1.791);
-            left: clamp(calc(100vw - var(--w)), calc(50vw - var(--w) * 0.44), 0px);
-            opacity: 0.7;
+            z-index: 10;
+            left: max(1.5rem, 6vw);
+            top: calc(var(--top) + var(--H) * 0.145);
         }
-        .hero-image-dessin { display: block; width: 100%; height: 100%; }
-        /* Écrans en hauteur : le portrait d'origine (1792 × 2400), plein cadre, cadré entre les
-           soleils (36 % de sa largeur) ; soleils animés recalés sur ce dessin. */
-        @media (max-aspect-ratio: 4/5) {
-            .hero-toile {
-                --w: max(100vw, calc((100vh - 4rem) * 0.7467));
-                height: calc(var(--w) / 0.7467);
-                left: clamp(calc(100vw - var(--w)), calc(50vw - var(--w) * 0.36), 0px);
+        .hero-bas {                         /* sur la portière noire */
+            position: absolute;
+            z-index: 10;
+            top: calc(var(--top) + var(--H) * 0.86);
+            left: 0;
+            right: 0;
+        }
+        /* Écrans larges : le texte suit la taille de la photo (en vw) pour rester dans la zone noire
+           du haut à gauche quelle que soit la largeur de l'écran. */
+        @media (min-aspect-ratio: 1/1) {
+            .hero .hero-texte h1 { font-size: clamp(2.4rem, 5vw, 4.5rem); margin-bottom: clamp(0.6rem, 1.2vw, 1.25rem); }
+            .hero .hero-texte p { font-size: clamp(1.05rem, 1.6vw, 1.5rem); margin-bottom: clamp(1rem, 1.8vw, 2rem); }
+            .hero .hero-texte a { font-size: clamp(0.85rem, 1.05vw, 1rem); padding: clamp(0.55rem, 0.8vw, 0.75rem) clamp(1.1rem, 1.6vw, 1.75rem); }
+        }
+        /* Écrans en hauteur (téléphones, tablettes verticales) : photo cadrée sur le taxi et les
+           lumières, dans le bas de l'écran ; le texte au-dessus, sur le noir. */
+        @media (max-aspect-ratio: 1/1) {
+            .hero {
+                --W: 167vw;
+                --left: calc(var(--W) * -0.25);
+                --top: calc(100vh - var(--H) * 0.88);
             }
-            .hero-scene .hero-soleil { top: 11%; width: 26%; }   /* .hero-scene : priorité sur les règles générales */
-            .hero-scene .hero-soleil-1 { left: 23.4%; }
-            .hero-scene .hero-soleil-2 { left: 48%; }
-        }
-        /* Le ciel d'aquarelle dérive : un voile de lumière qui glisse très lentement */
-        .hero-ciel {
-            position: absolute;
-            inset: 0;
-            background:
-                radial-gradient(ellipse 40% 30% at 30% 40%, rgba(255, 255, 255, 0.22), transparent 70%),
-                radial-gradient(ellipse 35% 25% at 75% 60%, rgba(196, 181, 253, 0.2), transparent 70%);
-            mix-blend-mode: soft-light;
-            animation: cielDerive 38s ease-in-out infinite alternate;
-        }
-        @keyframes cielDerive {
-            from { transform: translate3d(-6%, -2%, 0) scale(1); }
-            to   { transform: translate3d(6%, 3%, 0) scale(1.12); }
-        }
-        /* Les deux soleils respirent, à contretemps */
-        .hero-soleil {
-            position: absolute;
-            top: 11.2%;
-            width: 12%;
-            aspect-ratio: 1;
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            background: radial-gradient(circle, rgba(8, 10, 28, 0.55) 0%, rgba(30, 27, 75, 0.35) 38%, rgba(67, 56, 202, 0.12) 55%, transparent 70%);
-            mix-blend-mode: multiply;
-            animation: soleilRespire 7s ease-in-out infinite alternate;
-        }
-        .hero-soleil::after {           /* halo qui s'élargit */
-            content: "";
-            position: absolute;
-            inset: -18%;
-            border-radius: 50%;
-            background: radial-gradient(circle, transparent 48%, rgba(165, 180, 252, 0.28) 58%, transparent 72%);
-            mix-blend-mode: screen;
-            animation: haloRespire 7s ease-in-out infinite alternate;
-        }
-        .hero-soleil-1 { left: 39.2%; }
-        .hero-soleil-2 { left: 48.75%; animation-delay: -3.5s; }
-        .hero-soleil-2::after { animation-delay: -3.5s; }
-        @keyframes soleilRespire {
-            from { transform: translate(-50%, -50%) scale(0.9); opacity: 0.45; }
-            to   { transform: translate(-50%, -50%) scale(1.14); opacity: 0.95; }
-        }
-        @keyframes haloRespire {
-            from { transform: scale(0.85); opacity: 0; }
-            to   { transform: scale(1.25); opacity: 1; }
+            .hero-texte { top: 6.5rem; left: 1.5rem; right: 1.5rem; }
         }
         @media (prefers-reduced-motion: reduce) {
-            .hero-zoom, .hero-ciel, .hero-soleil, .hero-soleil::after { animation: none; }
+            .hero-parallax img { animation: none; }
         }
 
         /* Hide elements based on language */
@@ -265,65 +236,52 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-        <!-- Background Image with Glow - Full Width Landscape -->
-        <div class="absolute inset-0 hero-scene">
-            <!-- « Deux soleils » vivant : les soleils respirent, le ciel dérive, l'image suit le
-                 curseur (ou l'inclinaison du téléphone). Tout s'arrête si le mouvement est réduit. -->
+    <!-- Hero : Kolkata, la nuit (voir les styles .hero : tout est posé sur les zones noires de la photo) -->
+    <section class="hero">
+        <div class="hero-photo">
             <div class="hero-parallax">
-                <div class="hero-toile hero-zoom">
-                    <picture>
-                        <!-- Écrans en hauteur : le portrait d'origine (vague d'immeubles en grand) -->
-                        <source media="(max-aspect-ratio: 4/5)" type="image/webp" srcset="assets/theme-picture/deux-soleils-portrait-1200.webp">
-                        <source media="(max-aspect-ratio: 4/5)" srcset="assets/theme-picture/deux-soleils-portrait-1200.jpg">
-                        <source type="image/webp"
-                                srcset="assets/theme-picture/deux-soleils-1280.webp 1280w, assets/theme-picture/deux-soleils-2400.webp 2400w"
-                                sizes="max(100vw, 179vh)">
-                        <img src="assets/theme-picture/deux-soleils-1600.jpg" alt="Deux soleils, dessin de Mahigan Lepage"
-                             width="2400" height="1340" fetchpriority="high" class="hero-image-dessin">
-                    </picture>
-                    <div class="hero-ciel" aria-hidden="true"></div>
-                    <div class="hero-soleil hero-soleil-1" aria-hidden="true"></div>
-                    <div class="hero-soleil hero-soleil-2" aria-hidden="true"></div>
-                </div>
+                <picture>
+                    <source type="image/webp"
+                            srcset="assets/theme-picture/taxi-kolkata-1280.webp 1280w, assets/theme-picture/taxi-kolkata-2400.webp 2400w"
+                            sizes="max(100vw, 167vw)">
+                    <img src="assets/theme-picture/taxi-kolkata-1600.jpg"
+                         alt="Un taxi jaune filé dans la nuit, vu à travers une vitre de voiture mouillée, Kolkata"
+                         width="2400" height="1800" fetchpriority="high">
+                </picture>
             </div>
-            <!-- Light gradient overlay for text readability -->
-            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-slate-900/20 to-transparent"></div>
-            <!-- Image credit -->
-            <p class="hidden md:block absolute bottom-4 right-4 text-xs text-slate-200 opacity-70">
-                <span class="lang-fr">Dessin original par Mahigan Lepage &bull; Mise en couleur par IA</span>
-                <span class="lang-en">Original drawing by Mahigan Lepage &bull; AI Coloring</span>
-            </p>
         </div>
 
-        <!-- Hero Content -->
-        <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
-            <h1 class="font-sans font-bold text-5xl md:text-7xl text-slate-100 mb-6 tracking-tight">
+        <div class="hero-texte">
+            <h1 class="font-sans font-bold text-5xl lg:text-6xl xl:text-7xl text-slate-100 mb-5 tracking-tight">
                 MAHIGAN
             </h1>
-            <p class="text-xl md:text-2xl text-slate-200 mb-10 font-light">
+            <p class="text-xl md:text-2xl text-slate-200 mb-8 font-light">
                 <span class="lang-fr">Écritures & intelligences</span>
                 <span class="lang-en">Writings & Intelligences</span>
             </p>
-            <div class="flex flex-wrap justify-center gap-4">
-                <a href="#books" class="px-8 py-3 bg-violet-600 hover:bg-violet-500 text-white font-sans font-medium rounded-lg transition-all hover:shadow-lg hover:shadow-violet-500/25">
+            <div class="flex flex-wrap gap-4">
+                <a href="#books" class="px-7 py-3 bg-violet-600 hover:bg-violet-500 text-white font-sans font-medium rounded-lg transition-all hover:shadow-lg hover:shadow-violet-500/25">
                     <span class="lang-fr">Découvrir les livres</span>
                     <span class="lang-en">Discover the books</span>
                 </a>
-                <a href="#projects" class="px-8 py-3 border border-slate-600 hover:border-slate-400 text-slate-300 font-sans font-medium rounded-lg transition-all hover:bg-slate-800">
+                <a href="#projects" class="px-7 py-3 border border-slate-600 hover:border-slate-400 text-slate-300 font-sans font-medium rounded-lg transition-all hover:bg-slate-800">
                     <span class="lang-fr">Projets</span>
                     <span class="lang-en">Projects</span>
                 </a>
             </div>
         </div>
 
-        <!-- Scroll Indicator -->
-        <a href="#about" class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce cursor-pointer hover:text-slate-300 transition-colors">
-            <svg class="w-6 h-6 text-slate-500 hover:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
-            </svg>
-        </a>
+        <div class="hero-bas">
+            <a href="#about" class="block w-6 mx-auto animate-bounce text-slate-500 hover:text-slate-300 transition-colors" aria-label="Descendre">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                </svg>
+            </a>
+            <p class="hero-credit absolute right-6 top-0 text-xs text-slate-400">
+                <span class="lang-fr">Kolkata, 2013 &bull; Photo : Mahigan Lepage</span>
+                <span class="lang-en">Kolkata, 2013 &bull; Photo: Mahigan Lepage</span>
+            </p>
+        </div>
     </section>
 
     <!-- About Section -->
@@ -643,7 +601,7 @@
 
     <script src="script.js"></script>
     <script>
-        // « Deux soleils » : l'image suit doucement le curseur (ou l'inclinaison du téléphone).
+        // Accueil : la photo suit doucement le curseur (ou l'inclinaison du téléphone).
         (() => {
             const couche = document.querySelector('.hero-parallax');
             if (!couche || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
