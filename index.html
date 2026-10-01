@@ -3,8 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MAHIGAN | Écritures et Intelligences</title>
+    <title>Mahigan | écritures et intelligences</title>
     <meta name="description" content="Site officiel de Mahigan Lepage - Écrivain, docteur en littérature et explorateur de l'intelligence artificielle.">
+    <meta name="author" content="Mahigan Lepage">
+    <link rel="canonical" href="https://mahigan.com/">
+    <!-- Partage (Facebook, LinkedIn, X, Bluesky, messageries) -->
+    <meta property="og:site_name" content="Mahigan Lepage">
+    <meta property="og:locale" content="fr_CA">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://mahigan.com/">
+    <meta property="og:title" content="Mahigan | écritures et intelligences">
+    <meta property="og:description" content="Site de Mahigan Lepage : écrivain, docteur en littérature et explorateur de l'intelligence artificielle. Livres, essais et projets d'écriture numérique.">
+    <meta property="og:image" content="https://mahigan.com/assets/partage.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Deux soleils, dessin de Mahigan Lepage, avec le titre MAHIGAN — Écritures et intelligences">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Mahigan | écritures et intelligences">
+    <meta name="twitter:description" content="Livres, essais et projets d'écriture numérique de Mahigan Lepage.">
+    <meta name="twitter:image" content="https://mahigan.com/assets/partage.jpg">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/favicon/favicon-mahigan.png">
@@ -14,28 +32,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        'sans': ['Inter', 'system-ui', 'sans-serif'],
-                        'serif': ['Lora', 'Georgia', 'serif'],
-                    },
-                    colors: {
-                        'nocturne': {
-                            900: '#0f172a',
-                            800: '#1e293b',
-                            700: '#334155',
-                            600: '#475569',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Feuille Tailwind compilée (voir outils/tailwind.config.cjs pour la regénérer) -->
+    <link rel="stylesheet" href="assets/site.css">
 
     <style>
         /* Custom styles */
@@ -89,6 +87,77 @@
 
         .hero-zoom {
             animation: zoomOut 12s ease-out forwards;
+        }
+
+        /* ——— « Deux soleils » vivant ——— */
+        .hero-scene { overflow: hidden; }
+        .hero-parallax {
+            position: absolute;
+            inset: -3%;               /* marge pour le déplacement au curseur */
+            will-change: transform;
+        }
+        /* Toile au format du dessin (2400 × 1340), qui couvre l'écran comme object-fit: cover :
+           les soleils animés restent ainsi posés exactement sur les soleils peints. */
+        .hero-toile {
+            position: absolute;
+            left: 50%;
+            top: 4rem;                /* calé sous la barre de navigation : les soleils restent visibles */
+            /* Cadrage centré entre les deux soleils (44 % de la largeur du dessin) plutôt qu'au
+               milieu : sur téléphone, les deux soleils restent à l'écran. */
+            width: max(121vw, 190vh);
+            height: max(67.6vw, 106vh);
+            margin-left: calc(max(121vw, 190vh) * -0.44);
+            opacity: 0.7;
+        }
+        .hero-image-dessin { display: block; width: 100%; height: 100%; }
+        /* Le ciel d'aquarelle dérive : un voile de lumière qui glisse très lentement */
+        .hero-ciel {
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 40% 30% at 30% 40%, rgba(255, 255, 255, 0.22), transparent 70%),
+                radial-gradient(ellipse 35% 25% at 75% 60%, rgba(196, 181, 253, 0.2), transparent 70%);
+            mix-blend-mode: soft-light;
+            animation: cielDerive 38s ease-in-out infinite alternate;
+        }
+        @keyframes cielDerive {
+            from { transform: translate3d(-6%, -2%, 0) scale(1); }
+            to   { transform: translate3d(6%, 3%, 0) scale(1.12); }
+        }
+        /* Les deux soleils respirent, à contretemps */
+        .hero-soleil {
+            position: absolute;
+            top: 11.2%;
+            width: 12%;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, rgba(8, 10, 28, 0.55) 0%, rgba(30, 27, 75, 0.35) 38%, rgba(67, 56, 202, 0.12) 55%, transparent 70%);
+            mix-blend-mode: multiply;
+            animation: soleilRespire 7s ease-in-out infinite alternate;
+        }
+        .hero-soleil::after {           /* halo qui s'élargit */
+            content: "";
+            position: absolute;
+            inset: -18%;
+            border-radius: 50%;
+            background: radial-gradient(circle, transparent 48%, rgba(165, 180, 252, 0.28) 58%, transparent 72%);
+            mix-blend-mode: screen;
+            animation: haloRespire 7s ease-in-out infinite alternate;
+        }
+        .hero-soleil-1 { left: 39.2%; }
+        .hero-soleil-2 { left: 48.75%; animation-delay: -3.5s; }
+        .hero-soleil-2::after { animation-delay: -3.5s; }
+        @keyframes soleilRespire {
+            from { transform: translate(-50%, -50%) scale(0.9); opacity: 0.45; }
+            to   { transform: translate(-50%, -50%) scale(1.14); opacity: 0.95; }
+        }
+        @keyframes haloRespire {
+            from { transform: scale(0.85); opacity: 0; }
+            to   { transform: scale(1.25); opacity: 1; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .hero-zoom, .hero-ciel, .hero-soleil, .hero-soleil::after { animation: none; }
         }
 
         /* Hide elements based on language */
@@ -185,12 +254,23 @@
     <!-- Hero Section -->
     <section class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
         <!-- Background Image with Glow - Full Width Landscape -->
-        <div class="absolute inset-0">
-            <img
-                src="assets/theme-picture/Deux soleils.png"
-                alt="Deux soleils - Digital Art"
-                class="absolute inset-0 w-full h-full object-cover opacity-70 hero-zoom"
-            >
+        <div class="absolute inset-0 hero-scene">
+            <!-- « Deux soleils » vivant : les soleils respirent, le ciel dérive, l'image suit le
+                 curseur (ou l'inclinaison du téléphone). Tout s'arrête si le mouvement est réduit. -->
+            <div class="hero-parallax">
+                <div class="hero-toile hero-zoom">
+                    <picture>
+                        <source type="image/webp"
+                                srcset="assets/theme-picture/deux-soleils-1280.webp 1280w, assets/theme-picture/deux-soleils-2400.webp 2400w"
+                                sizes="max(100vw, 179vh)">
+                        <img src="assets/theme-picture/deux-soleils-1600.jpg" alt="Deux soleils, dessin de Mahigan Lepage"
+                             width="2400" height="1340" fetchpriority="high" class="hero-image-dessin">
+                    </picture>
+                    <div class="hero-ciel" aria-hidden="true"></div>
+                    <div class="hero-soleil hero-soleil-1" aria-hidden="true"></div>
+                    <div class="hero-soleil hero-soleil-2" aria-hidden="true"></div>
+                </div>
+            </div>
             <!-- Light gradient overlay for text readability -->
             <div class="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-slate-900/20 to-transparent"></div>
             <!-- Image credit -->
@@ -215,8 +295,8 @@
                     <span class="lang-en">Discover the books</span>
                 </a>
                 <a href="#projects" class="px-8 py-3 border border-slate-600 hover:border-slate-400 text-slate-300 font-sans font-medium rounded-lg transition-all hover:bg-slate-800">
-                    <span class="lang-fr">Projets en cours</span>
-                    <span class="lang-en">Current projects</span>
+                    <span class="lang-fr">Projets</span>
+                    <span class="lang-en">Projects</span>
                 </a>
             </div>
         </div>
@@ -293,7 +373,7 @@
                 <!-- Peuplement -->
                 <div class="book-card group cursor-pointer" onclick="openBookModal('peuplement')">
                     <div class="relative overflow-hidden rounded-xl glow-hover">
-                        <img src="assets/book-covers/peuplement.jpg" alt="Peuplement" class="w-full aspect-[2/3] object-cover">
+                        <img src="assets/book-covers/peuplement-600.jpg" loading="lazy" width="600" alt="Peuplement" class="w-full aspect-[2/3] object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform">
                             <span class="text-xs font-sans text-indigo-300">2021 &middot; Leméac</span>
@@ -309,7 +389,7 @@
                 <!-- Big Bang City -->
                 <div class="book-card group cursor-pointer" onclick="openBookModal('bigbangcity')">
                     <div class="relative overflow-hidden rounded-xl glow-hover">
-                        <img src="assets/book-covers/big-bang-city.png" alt="Big Bang City" class="w-full aspect-[2/3] object-cover">
+                        <img src="assets/book-covers/big-bang-city-600.jpg" loading="lazy" width="600" alt="Big Bang City" class="w-full aspect-[2/3] object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform">
                             <span class="text-xs font-sans text-indigo-300">2017 &middot; Leméac</span>
@@ -325,7 +405,7 @@
                 <!-- le fleuve colère -->
                 <div class="book-card group cursor-pointer" onclick="openBookModal('fleuvecolere')">
                     <div class="relative overflow-hidden rounded-xl glow-hover">
-                        <img src="assets/book-covers/fleuve-colere.jpg" alt="le fleuve colère" class="w-full aspect-[2/3] object-cover">
+                        <img src="assets/book-covers/fleuve-colere-600.jpg" loading="lazy" width="600" alt="le fleuve colère" class="w-full aspect-[2/3] object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform">
                             <span class="text-xs font-sans text-indigo-300">2017 &middot; Noroît</span>
@@ -341,7 +421,7 @@
                 <!-- Fuites mineures -->
                 <div class="book-card group cursor-pointer" onclick="openBookModal('fuitesmineures')">
                     <div class="relative overflow-hidden rounded-xl glow-hover">
-                        <img src="assets/book-covers/fuites-mineures.jpg" alt="Fuites mineures" class="w-full aspect-[2/3] object-cover">
+                        <img src="assets/book-covers/fuites-mineures-600.jpg" loading="lazy" width="600" alt="Fuites mineures" class="w-full aspect-[2/3] object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform">
                             <span class="text-xs font-sans text-indigo-300">2014 &middot; Mémoire d'encrier</span>
@@ -357,7 +437,7 @@
                 <!-- Coulées -->
                 <div class="book-card group cursor-pointer" onclick="openBookModal('coulees')">
                     <div class="relative overflow-hidden rounded-xl glow-hover">
-                        <img src="assets/book-covers/coulees.jpg" alt="Coulées" class="w-full aspect-[2/3] object-cover">
+                        <img src="assets/book-covers/coulees-600.jpg" loading="lazy" width="600" alt="Coulées" class="w-full aspect-[2/3] object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform">
                             <span class="text-xs font-sans text-indigo-300">2012 &middot; Mémoire d'encrier</span>
@@ -373,7 +453,7 @@
                 <!-- Relief -->
                 <div class="book-card group cursor-pointer" onclick="openBookModal('relief')">
                     <div class="relative overflow-hidden rounded-xl glow-hover">
-                        <img src="assets/book-covers/relief.png" alt="Relief" class="w-full aspect-[2/3] object-cover">
+                        <img src="assets/book-covers/relief-600.jpg" loading="lazy" width="600" alt="Relief" class="w-full aspect-[2/3] object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform">
                             <span class="text-xs font-sans text-indigo-300">2011 &middot; Noroît</span>
@@ -389,7 +469,7 @@
                 <!-- Surqualifié (Translation) -->
                 <div class="book-card group cursor-pointer" onclick="openBookModal('surqualifie')">
                     <div class="relative overflow-hidden rounded-xl glow-hover">
-                        <img src="assets/book-covers/surqualifie-lettres.jpg" alt="Surqualifié" class="w-full aspect-[2/3] object-cover">
+                        <img src="assets/book-covers/surqualifie-lettres-600.jpg" loading="lazy" width="600" alt="Surqualifié" class="w-full aspect-[2/3] object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform">
                             <span class="text-xs font-sans text-indigo-300">2017 &middot; Mémoire d'encrier</span>
@@ -408,7 +488,7 @@
 
     <!-- Projects Section -->
     <section id="projects" class="py-24 px-6">
-        <div class="max-w-4xl mx-auto">
+        <div class="max-w-6xl mx-auto">
             <div class="text-center mb-16">
                 <h2 class="font-sans font-bold text-3xl text-slate-100 mb-4">
                     <span class="lang-fr">Projets</span>
@@ -420,47 +500,62 @@
                 </p>
             </div>
 
-            <!-- Featured Project -->
-            <div class="relative group">
-                <div class="absolute -inset-1 bg-gradient-to-r from-indigo-500/30 to-violet-500/30 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity"></div>
-                <div class="relative bg-slate-800/50 border border-slate-700/50 rounded-2xl p-8 md:p-12">
-                    <div class="flex flex-col md:flex-row gap-8 items-center">
-                        <div class="flex-1">
-                            <span class="inline-block px-3 py-1 bg-indigo-500/20 text-indigo-300 text-xs font-sans font-medium rounded-full mb-4">
-                                <span class="lang-fr">Dernier projet</span>
-                                <span class="lang-en">Latest project</span>
-                            </span>
-                            <h3 class="font-sans font-bold text-2xl text-slate-100 mb-4 hover:text-indigo-300 transition-colors">
-                                <a href="https://obsolescence-humaine.com/" target="_blank" rel="noopener" class="lang-fr">L'obsolescence humaine programmée</a>
-                                <a href="https://human-obsolescence.com/" target="_blank" rel="noopener" class="lang-en">Planned Human Obsolescence</a>
-                            </h3>
-                            <p class="text-slate-400 mb-6">
-                                <span class="lang-fr">Si l'intelligence artificielle nous égale ou nous surpasse, l'être humain tombera-t-il en désuétude?</span>
-                                <span class="lang-en">If artificial intelligence equals or surpasses us, will humans become a thing of the past?</span>
-                            </p>
-                            <a href="https://obsolescence-humaine.com/" target="_blank" rel="noopener" class="lang-fr inline-flex items-center gap-2 text-indigo-300 hover:text-indigo-200 font-sans font-medium transition-colors group/link">
-                                Lire l'essai
-                                <svg class="w-4 h-4 group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                                </svg>
-                            </a>
-                            <a href="https://human-obsolescence.com/" target="_blank" rel="noopener" class="lang-en inline-flex items-center gap-2 text-indigo-300 hover:text-indigo-200 font-sans font-medium transition-colors group/link">
-                                Read the essay
-                                <svg class="w-4 h-4 group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-                                </svg>
-                            </a>
-                        </div>
-                        <div class="w-48 flex-shrink-0">
-                            <a href="https://obsolescence-humaine.com/" target="_blank" rel="noopener" class="lang-fr">
-                                <img src="assets/project-picture/obsolescence-fr.png" alt="L'obsolescence humaine programmée" class="w-full rounded-xl shadow-lg hover:opacity-80 transition-opacity">
-                            </a>
-                            <a href="https://human-obsolescence.com/" target="_blank" rel="noopener" class="lang-en">
-                                <img src="assets/project-picture/obsolescence-en.png" alt="Planned Human Obsolescence" class="w-full rounded-xl shadow-lg hover:opacity-80 transition-opacity">
-                            </a>
-                        </div>
-                    </div>
-                </div>
+            <!-- Projets : du plus récent au plus ancien -->
+            <div class="grid md:grid-cols-3 gap-6 md:gap-8">
+                <!-- Terminal terrestre -->
+                <article class="group relative flex flex-col bg-slate-800/50 border border-slate-700/50 hover:border-indigo-500/40 rounded-2xl p-5 transition-colors">
+                    <a href="/tt/" class="lang-fr block"><img src="assets/project-picture/terminal-terrestre.jpg" alt="Terminal terrestre" loading="lazy" width="560" height="560" class="w-full aspect-square object-cover rounded-xl shadow-lg group-hover:opacity-90 transition-opacity"></a>
+                    <a href="/tt/" class="lang-en block"><img src="assets/project-picture/terminal-terrestre.jpg" alt="Terminal terrestre" loading="lazy" width="560" height="560" class="w-full aspect-square object-cover rounded-xl shadow-lg group-hover:opacity-90 transition-opacity"></a>
+                    <p class="mt-5 mb-2 font-sans text-xs uppercase tracking-wider text-indigo-300">
+                        <span class="lang-fr">Écriture numérique · depuis 2018</span><span class="lang-en">Digital writing · since 2018</span>
+                    </p>
+                    <h3 class="font-sans font-bold text-xl text-slate-100 mb-3 leading-snug">
+                        <a href="/tt/" class="lang-fr hover:text-indigo-300 transition-colors">Terminal terrestre</a>
+                        <a href="/tt/" class="lang-en hover:text-indigo-300 transition-colors">Terminal terrestre</a> <span class="lang-en font-normal text-sm text-slate-500">(in French)</span>
+                    </h3>
+                    <p class="text-slate-400 mb-5 flex-1">
+                        <span class="lang-fr">Un récit planétaire en fragments, où l'on voyage en suivant les filons de la matière.</span>
+                        <span class="lang-en">A planetary narrative in fragments, travelled by following the veins of matter.</span>
+                    </p>
+                    <a href="/tt/" class="lang-fr inline-flex items-center gap-2 text-indigo-300 hover:text-indigo-200 font-sans font-medium transition-colors group/link">Entrer <svg class="w-4 h-4 group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+                    <a href="/tt/" class="lang-en inline-flex items-center gap-2 text-indigo-300 hover:text-indigo-200 font-sans font-medium transition-colors group/link">Enter <svg class="w-4 h-4 group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+                </article>
+                <!-- L'écriture intelligente : IA et littérature -->
+                <article class="group relative flex flex-col bg-slate-800/50 border border-slate-700/50 hover:border-indigo-500/40 rounded-2xl p-5 transition-colors">
+                    <a href="https://intelligent-writing.com/fr/" target="_blank" rel="noopener" class="lang-fr block"><img src="assets/project-picture/intelligent-writing.jpg" alt="L'écriture intelligente : IA et littérature" loading="lazy" width="560" height="560" class="w-full aspect-square object-cover rounded-xl shadow-lg group-hover:opacity-90 transition-opacity"></a>
+                    <a href="https://intelligent-writing.com/en/" target="_blank" rel="noopener" class="lang-en block"><img src="assets/project-picture/intelligent-writing.jpg" alt="Intelligent Writing: AI and Literature" loading="lazy" width="560" height="560" class="w-full aspect-square object-cover rounded-xl shadow-lg group-hover:opacity-90 transition-opacity"></a>
+                    <p class="mt-5 mb-2 font-sans text-xs uppercase tracking-wider text-indigo-300">
+                        <span class="lang-fr">Essai · 2026</span><span class="lang-en">Essay · 2026</span>
+                    </p>
+                    <h3 class="font-sans font-bold text-xl text-slate-100 mb-3 leading-snug">
+                        <a href="https://intelligent-writing.com/fr/" target="_blank" rel="noopener" class="lang-fr hover:text-indigo-300 transition-colors">L'écriture intelligente : IA et littérature</a>
+                        <a href="https://intelligent-writing.com/en/" target="_blank" rel="noopener" class="lang-en hover:text-indigo-300 transition-colors">Intelligent Writing: AI and Literature</a>
+                    </h3>
+                    <p class="text-slate-400 mb-5 flex-1">
+                        <span class="lang-fr">Qu'advient-il de la littérature quand la technique se sépare violemment du sujet?</span>
+                        <span class="lang-en">What becomes of literature when technique violently breaks away from the subject?</span>
+                    </p>
+                    <a href="https://intelligent-writing.com/fr/" target="_blank" rel="noopener" class="lang-fr inline-flex items-center gap-2 text-indigo-300 hover:text-indigo-200 font-sans font-medium transition-colors group/link">Lire l'essai <svg class="w-4 h-4 group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+                    <a href="https://intelligent-writing.com/en/" target="_blank" rel="noopener" class="lang-en inline-flex items-center gap-2 text-indigo-300 hover:text-indigo-200 font-sans font-medium transition-colors group/link">Read the essay <svg class="w-4 h-4 group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+                </article>
+                <!-- L'obsolescence humaine programmée -->
+                <article class="group relative flex flex-col bg-slate-800/50 border border-slate-700/50 hover:border-indigo-500/40 rounded-2xl p-5 transition-colors">
+                    <a href="https://obsolescence-humaine.com/" target="_blank" rel="noopener" class="lang-fr block"><img src="assets/project-picture/obsolescence-fr.jpg" alt="L'obsolescence humaine programmée" loading="lazy" width="560" height="560" class="w-full aspect-square object-cover rounded-xl shadow-lg group-hover:opacity-90 transition-opacity"></a>
+                    <a href="https://human-obsolescence.com/" target="_blank" rel="noopener" class="lang-en block"><img src="assets/project-picture/obsolescence-en.jpg" alt="Planned Human Obsolescence" loading="lazy" width="560" height="560" class="w-full aspect-square object-cover rounded-xl shadow-lg group-hover:opacity-90 transition-opacity"></a>
+                    <p class="mt-5 mb-2 font-sans text-xs uppercase tracking-wider text-indigo-300">
+                        <span class="lang-fr">Essai · 2026</span><span class="lang-en">Essay · 2026</span>
+                    </p>
+                    <h3 class="font-sans font-bold text-xl text-slate-100 mb-3 leading-snug">
+                        <a href="https://obsolescence-humaine.com/" target="_blank" rel="noopener" class="lang-fr hover:text-indigo-300 transition-colors">L'obsolescence humaine programmée</a>
+                        <a href="https://human-obsolescence.com/" target="_blank" rel="noopener" class="lang-en hover:text-indigo-300 transition-colors">Planned Human Obsolescence</a>
+                    </h3>
+                    <p class="text-slate-400 mb-5 flex-1">
+                        <span class="lang-fr">Si l'intelligence artificielle nous égale ou nous surpasse, l'être humain tombera-t-il en désuétude?</span>
+                        <span class="lang-en">If artificial intelligence equals or surpasses us, will humans become a thing of the past?</span>
+                    </p>
+                    <a href="https://obsolescence-humaine.com/" target="_blank" rel="noopener" class="lang-fr inline-flex items-center gap-2 text-indigo-300 hover:text-indigo-200 font-sans font-medium transition-colors group/link">Lire l'essai <svg class="w-4 h-4 group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+                    <a href="https://human-obsolescence.com/" target="_blank" rel="noopener" class="lang-en inline-flex items-center gap-2 text-indigo-300 hover:text-indigo-200 font-sans font-medium transition-colors group/link">Read the essay <svg class="w-4 h-4 group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg></a>
+                </article>
             </div>
 
             <p class="text-center text-slate-500 mt-12 italic">
@@ -530,5 +625,28 @@
     </div>
 
     <script src="script.js"></script>
+    <script>
+        // « Deux soleils » : l'image suit doucement le curseur (ou l'inclinaison du téléphone).
+        (() => {
+            const couche = document.querySelector('.hero-parallax');
+            if (!couche || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            let cx = 0, cy = 0, x = 0, y = 0, actif = true;
+            const viser = (nx, ny) => { cx = Math.max(-1, Math.min(1, nx)); cy = Math.max(-1, Math.min(1, ny)); };
+            addEventListener('pointermove', (e) => viser(e.clientX / innerWidth * 2 - 1, e.clientY / innerHeight * 2 - 1), { passive: true });
+            addEventListener('deviceorientation', (e) => {
+                if (e.gamma == null) return;
+                viser(e.gamma / 25, (e.beta - 45) / 25);
+            }, { passive: true });
+            new IntersectionObserver(([e]) => { actif = e.isIntersecting; }).observe(couche.parentElement);
+            const boucle = () => {
+                if (actif) {
+                    x += (cx - x) * 0.05; y += (cy - y) * 0.05;
+                    couche.style.transform = `translate3d(${(-x * 18).toFixed(2)}px, ${(-y * 12).toFixed(2)}px, 0)`;
+                }
+                requestAnimationFrame(boucle);
+            };
+            requestAnimationFrame(boucle);
+        })();
+    </script>
 </body>
 </html>

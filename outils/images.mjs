@@ -1,0 +1,85 @@
+#!/usr/bin/env node
+// Images du site, allégées : redimensionnées, converties (WebP / JPEG sRGB), retouchées au besoin.
+// Utilise Google Chrome sans interface (canvas) : pas de dépendance à installer.
+//   node outils/images.mjs
+// Les originaux restent dans le dépôt ; seules les versions produites sont chargées par le site.
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import { execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
+
+const RACINE = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+const IW = path.resolve(RACINE, '../../intelligent-writing/public/images/cover.png');
+
+// Étoile ✦ (filigrane Gemini) dans « Deux soleils » : remplacée par l'aquarelle située à sa
+// gauche, avec un masque radial adouci.
+const ETOILE = { x: 2640, y: 1424, rayon: 62, decalage: -140 };
+
+const travaux = [
+  { src: 'assets/theme-picture/Deux soleils.png', retouche: ETOILE, sorties: [
+    { fichier: 'assets/theme-picture/deux-soleils-2400.webp', largeur: 2400, format: 'image/webp', qualite: 0.8 },
+    { fichier: 'assets/theme-picture/deux-soleils-1280.webp', largeur: 1280, format: 'image/webp', qualite: 0.8 },
+    { fichier: 'assets/theme-picture/deux-soleils-1600.jpg', largeur: 1600, format: 'image/jpeg', qualite: 0.82 },
+  ] },
+  ...['peuplement.jpg', 'big-bang-city.png', 'fleuve-colere.jpg', 'fuites-mineures.jpg', 'coulees.jpg', 'relief.png', 'surqualifie-lettres.jpg']
+    .map((f) => ({ src: `assets/book-covers/${f}`, sorties: [
+      { fichier: `assets/book-covers/${f.replace(/\.(png|jpg)$/, '')}-600.jpg`, largeur: 600, format: 'image/jpeg', qualite: 0.84 },
+    ] })),
+  { src: 'assets/project-picture/obsolescence-fr.png', sorties: [{ fichier: 'assets/project-picture/obsolescence-fr.jpg', largeur: 560, format: 'image/jpeg', qualite: 0.85 }] },
+  { src: 'assets/project-picture/obsolescence-en.png', sorties: [{ fichier: 'assets/project-picture/obsolescence-en.jpg', largeur: 560, format: 'image/jpeg', qualite: 0.85 }] },
+  { src: IW, sorties: [{ fichier: 'assets/project-picture/intelligent-writing.jpg', largeur: 560, format: 'image/jpeg', qualite: 0.85 }] },
+];
+
+const url = (p) => 'file://' + (path.isAbsolute(p) ? p : path.join(RACINE, p)).split('/').map(encodeURIComponent).join('/');
+
+const page = `<!doctype html><meta charset="utf-8"><body><pre id="sortie"></pre><script>
+const travaux = ${JSON.stringify(travaux.map((t) => ({ ...t, src: url(t.src) })))};
+const charger = (s) => new Promise((ok, ko) => { const i = new Image(); i.onload = () => ok(i); i.onerror = ko; i.src = s; });
+(async () => {
+  const res = {};
+  for (const t of travaux) {
+    const img = await charger(t.src);
+    let base = document.createElement('canvas');
+    base.width = img.naturalWidth; base.height = img.naturalHeight;
+    const c = base.getContext('2d');
+    c.drawImage(img, 0, 0);
+    if (t.retouche) {
+      const { x, y, rayon, decalage } = t.retouche;
+      const r2 = rayon * 1.7, cote = Math.ceil(r2 * 2);
+      const piece = document.createElement('canvas'); piece.width = piece.height = cote;
+      const p = piece.getContext('2d');
+      p.drawImage(base, x + decalage - r2, y - r2, cote, cote, 0, 0, cote, cote);
+      const g = p.createRadialGradient(r2, r2, rayon, r2, r2, r2);
+      g.addColorStop(0, 'rgba(0,0,0,1)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+      p.globalCompositeOperation = 'destination-in'; p.fillStyle = g; p.fillRect(0, 0, cote, cote);
+      c.drawImage(piece, x - r2, y - r2);
+    }
+    for (const s of t.sorties) {
+      const l = Math.min(s.largeur, base.width), h = Math.round(base.height * l / base.width);
+      const out = document.createElement('canvas'); out.width = l; out.height = h;
+      const o = out.getContext('2d');
+      o.imageSmoothingQuality = 'high';
+      if (s.format === 'image/jpeg') { o.fillStyle = '#fff'; o.fillRect(0, 0, l, h); }
+      o.drawImage(base, 0, 0, l, h);
+      res[s.fichier] = out.toDataURL(s.format, s.qualite);
+    }
+  }
+  document.getElementById('sortie').textContent = JSON.stringify(res);
+})().catch((e) => { document.getElementById('sortie').textContent = 'ERREUR ' + e; });
+</script>`;
+
+const tmp = path.join(os.tmpdir(), 'mahigan-images.html');
+fs.writeFileSync(tmp, page);
+const dom = execFileSync(CHROME, [
+  '--headless=new', '--disable-gpu', '--allow-file-access-from-files', '--virtual-time-budget=60000',
+  '--dump-dom', 'file://' + tmp,
+], { maxBuffer: 512 * 1024 * 1024 }).toString();
+const brut = dom.match(/<pre id="sortie">([\s\S]*?)<\/pre>/)[1].replace(/&quot;/g, '"').replace(/&amp;/g, '&');
+if (brut.startsWith('ERREUR') || !brut) throw new Error(brut || 'aucune sortie');
+for (const [fichier, donnees] of Object.entries(JSON.parse(brut))) {
+  const octets = Buffer.from(donnees.split(',')[1], 'base64');
+  fs.writeFileSync(path.join(RACINE, fichier), octets);
+  console.log(`${fichier}  ${(octets.length / 1024).toFixed(0)} Ko`);
+}

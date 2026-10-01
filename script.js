@@ -29,7 +29,7 @@ const booksData = {
             fr: "C'était la fin d'une époque. C'était la fin des dieux. Mais, dans la forge de la mémoire, les figures tiennent encore d'un seul tenant, statues pérennes fondues dans le paysage. Ç'aurait été leur faire violence que d'en déliter les strates et de les morceler sur une ligne de temps, car ces figures ne sont pas soumises aux calendriers : elles sont faites de temps comme d'un métal coulé.",
             en: "It was the end of an era. It was the end of the gods. But, in the forge of memory, the figures still hold in a single piece, perennial statues cast into the landscape. It would have been doing them violence to delaminate their strata and break them up on a timeline, for these figures are not subject to calendars: they are made of time as if of cast metal."
         },
-        cover: "assets/book-covers/peuplement.jpg"
+        cover: "assets/book-covers/peuplement-600.jpg"
     },
 
     bigbangcity: {
@@ -57,7 +57,7 @@ const booksData = {
             fr: "Il m'a d'abord fallu aller. Il n'y a vraiment que la marche.\n\nAprès, on s'en remet à la sensation. Les visions, et la colère ou la peur qu'elles suscitent. Sous un échangeur, dans un girlie bar, ou devant un corps nu étendu sur le béton, c'est le besoin de hurler le monde qui nous pousse à écrire.",
             en: "First I had to go. There is truly only the walking.\n\nAfter, one relies on sensation. The visions, and the anger or the fear they arouse. Under an interchange, in a girlie bar, or before a naked body stretched out on the concrete, it is the need to howl the world that pushes us to write."
         },
-        cover: "assets/book-covers/big-bang-city.png"
+        cover: "assets/book-covers/big-bang-city-600.jpg"
     },
 
     fleuvecolere: {
@@ -80,7 +80,7 @@ const booksData = {
             fr: "tu ruisselais\ntu cascadais\ntu découvrais les villes\nqui t'illuminaient de mille feux\n\ntu aimais, approchant les cités\nentendre grossir la rumeur colère\ndes moteurs et des klaxons\n\ntu goûtais :\nles gaz d'échappement\nles cheminées des usines\nle smog qui brouillait la ville\ntoutes fumées enivrantes",
             en: "you streamed\nyou cascaded\nyou discovered the cities\nthat illuminated you with a thousand fires\n\nyou loved, approaching the cities\nto hear the swelling angry rumor\nof engines and horns\n\nyou tasted:\nthe exhaust gases\nthe factory chimneys\nthe smog that blurred the city\nall intoxicating smokes"
         },
-        cover: "assets/book-covers/fleuve-colere.jpg"
+        cover: "assets/book-covers/fleuve-colere-600.jpg"
     },
 
     fuitesmineures: {
@@ -104,7 +104,7 @@ const booksData = {
             fr: "Et j'avais beau aller à Montréal et j'avais beau frencher et j'avais beau faire plus, et prendre encore du mush des fois et faire des voyages et aller dans des nouvelles villes, et essayer de me perdre par toutes les façons j'avais beau j'avais beau, il y avait plus autant l'excès et plus autant la fougue et plus autant la vitesse, je l'ai jamais retrouvée l'intensité la grande grande intensité l'immense puissance mineure, comme quand on tripait dans un show et qu'on disait C'est puissant et qu'on disait C'est violent et qu'on disait Ça arrache, je l'ai jamais retrouvée cette jouissance-là à part des fois en écrivant et c'est pourquoi ces fuites.",
             en: "And in vain I went to Montreal and in vain I frenched and in vain I did more, and took mush again sometimes and took trips and went to new cities, and tried to lose myself in every way in vain in vain, there was no longer as much excess and no longer as much ardor and no longer as much speed, I never found it again the intensity the great great intensity the immense minor power, like when we tripped at a show and we said It's powerful and we said It's violent and we said It rips, I never found that bliss again except sometimes in writing and that is why these fugues."
         },
-        cover: "assets/book-covers/fuites-mineures.jpg"
+        cover: "assets/book-covers/fuites-mineures-600.jpg"
     },
 
     coulees: {
@@ -128,7 +128,7 @@ const booksData = {
             fr: "Je garderais, de toutes ces années d'entraves et d'isolement, une soif insatiable de déplacement et de vitesse, de villes et de voyages, un besoin inextinguible de mobilité, de courant, une pulsion de fuite en avant. Jusqu'au jour où je n'ai plus eu le choix, pour continuer d'avancer, que de retourner amont et d'entreprendre ces coulées, par lesquelles j'allais avoir à remuer des fonds d'inavouable, à déplacer des masses de temps inerte, qui encore me retenaient et me tiraient arrière. Que dans plus grand et plus fort, plus fluide, tout cela soit emporté et noyé – et ne demeurent finalement empreints, pour chaque territoire retraversé, que la couleur et le mouvement vifs d'une rivière.",
             en: "I would keep, from all those years of fetters and isolation, an insatiable thirst for displacement and speed, for cities and voyages, an inextinguishable need for mobility, for current, an impulse of headlong flight. Until the day I no longer had the choice, to continue advancing, but to return upstream and undertake these gullies, through which I would have to stir up depths of the unavowable, to displace masses of inert time, which still held me and pulled me backward. That in greater and stronger, more fluid, all this be carried away and drowned—and finally remain imprinted, for each territory recrossed, only the color and the vivid movement of a river."
         },
-        cover: "assets/book-covers/coulees.jpg"
+        cover: "assets/book-covers/coulees-600.jpg"
     },
 
     relief: {
@@ -155,7 +155,7 @@ const booksData = {
             fr: "Ici la platitude des plateaux se défait : surfaces de neige gondolées comme des feuilles de tôle – sillons et saillies balafrant les flancs et les faces de la géographie – gouffres béants plongeant entre les montagnes. Et le gémissement des arbres gelés – et le froissement de la neige tôlée : aux yeux et aux oreilles Romu, le relief.",
             en: "Here the flatness of the plateaus undoes itself: surfaces of snow buckled like sheets of metal—furrows and protrusions slashing the flanks and faces of the geography—gaping gulfs plunging between the mountains. And the groaning of frozen trees—and the crumpling of sheeted snow: to the eyes and ears Romu, the relief."
         },
-        cover: "assets/book-covers/relief.png"
+        cover: "assets/book-covers/relief-600.jpg"
     },
 
     surqualifie: {
@@ -178,7 +178,7 @@ const booksData = {
             fr: "Le récit est construit comme une série de lettres de présentation pour des postes dans différentes sociétés. Chaque lettre est à la fois un manifeste contre la multinationale et une entrée de journal intime révélant un aspect de la vie du narrateur, un jeune acadien qui fait le deuil de son petit frère tué par un chauffeur ivre. Surqualifié est un texte inventif, drôle, caustique et subversif.",
             en: "The narrative is constructed as a series of cover letters for positions in different corporations. Each letter is at once a manifesto against the multinational and a diary entry revealing an aspect of the narrator's life, a young Acadian mourning his little brother killed by a drunk driver. Surqualifié is an inventive, funny, caustic, and subversive text."
         },
-        cover: "assets/book-covers/surqualifie-lettres.jpg"
+        cover: "assets/book-covers/surqualifie-lettres-600.jpg"
     }
 };
 
@@ -195,9 +195,9 @@ function setLanguage(lang) {
 
     // Update page title
     if (lang === 'en') {
-        document.title = 'Mahigan Lepage | Writer & AI Explorer';
+        document.title = 'Mahigan | writings and intelligences';
     } else {
-        document.title = 'Mahigan Lepage | Écrivain & Explorateur IA';
+        document.title = 'Mahigan | écritures et intelligences';
     }
 }
 
