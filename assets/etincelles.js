@@ -50,7 +50,7 @@
         // Braises : vie de 8 à 52 s, surtout courte ; réglée par simulation pour qu'il en reste
         // ~25 le long d'« À propos », ~30 de « Livres », ~15 à « Projets », ~3 à « Contact ».
         vie: braise ? 8 + 44 * Math.pow(Math.random(), 2.2) : 0.5 + Math.random() * 2.2,
-        taille: braise ? 1.1 + Math.random() * 1.1 : 1.4 + Math.random() * 1.6,
+        taille: braise ? 2.2 + Math.random() * 1.8 : 3 + Math.random() * 3,   // épaisseur à la naissance (px)
         gravite: braise ? 70 : 260,
         frein: braise ? 0.75 : 1.1,
         phase: Math.random() * Math.PI * 2,
@@ -94,12 +94,17 @@
       const lum = 52 + 40 * chaleur * chaleur;            // presque blanche au départ
       const alpha = e.braise ? 0.25 + 0.6 * chaleur : Math.min(1, 1.6 * chaleur);
       const trainee = e.braise ? 0.03 : 0.055;
+      // Grosses à la naissance (comme les éclats de la photo), elles rapetissent en s'éteignant.
+      const epaisseur = Math.max(0.7, e.taille * (0.2 + 0.8 * Math.pow(chaleur, 0.8)));
+      const x0 = e.x - e.vx * trainee, y0 = sy - e.vy * trainee;
+      if (chaleur > 0.35) {                               // halo doux tant qu'elle est chaude
+        ctx.strokeStyle = `hsla(${teinte}, 100%, ${lum - 10}%, ${alpha * 0.22 * (chaleur - 0.35) / 0.65})`;
+        ctx.lineWidth = epaisseur * 3.2;
+        ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(e.x, sy); ctx.stroke();
+      }
       ctx.strokeStyle = `hsla(${teinte}, 100%, ${lum}%, ${alpha})`;
-      ctx.lineWidth = e.taille * (e.braise ? 0.6 + 0.4 * chaleur : 1);
-      ctx.beginPath();
-      ctx.moveTo(e.x - e.vx * trainee, sy - e.vy * trainee);
-      ctx.lineTo(e.x, sy);
-      ctx.stroke();
+      ctx.lineWidth = epaisseur;
+      ctx.beginPath(); ctx.moveTo(x0, y0); ctx.lineTo(e.x, sy); ctx.stroke();
     }
     requestAnimationFrame(image);
   };
