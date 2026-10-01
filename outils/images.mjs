@@ -12,16 +12,28 @@ import { fileURLToPath } from 'node:url';
 const RACINE = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const IW = path.resolve(RACINE, '../../intelligent-writing/public/images/cover.png');
+// « Deux soleils » dans sa forme d'origine (portrait), pour les écrans en hauteur.
+const DEUX_SOLEILS_PORTRAIT = path.resolve(RACINE, '../../obsolescence-site/assets/colored-drawings/chapter 4.png');
 
 // Étoile ✦ (filigrane Gemini) dans « Deux soleils » : remplacée par l'aquarelle située à sa
 // gauche, avec un masque radial adouci.
 const ETOILE = { x: 2640, y: 1424, rayon: 62, decalage: -140 };
 
 const travaux = [
-  { src: 'assets/theme-picture/Deux soleils.png', retouche: ETOILE, sorties: [
+  // « Deux soleils » en paysage : agrandi par Gemini à partir du portrait d'origine, qui occupe la
+  // bande centrale (x ≈ 830–1900) et est plus sombre (~6 %) que les côtés ajoutés. On égalise les
+  // côtés sur le centre (le dessin d'origine reste intact), colonne par colonne, en fondu.
+  { src: 'assets/theme-picture/Deux soleils.png', retouche: ETOILE,
+    egaliser: { y0: 0.22, y1: 0.62, ref: [960, 1780], lissage: 70 }, sorties: [
     { fichier: 'assets/theme-picture/deux-soleils-2400.webp', largeur: 2400, format: 'image/webp', qualite: 0.8 },
     { fichier: 'assets/theme-picture/deux-soleils-1280.webp', largeur: 1280, format: 'image/webp', qualite: 0.8 },
     { fichier: 'assets/theme-picture/deux-soleils-1600.jpg', largeur: 1600, format: 'image/jpeg', qualite: 0.82 },
+  ] },
+  // Portrait d'origine (écrans en hauteur) ; étoile ✦ à cheval sur le bord des immeubles,
+  // recouverte par une pièce prélevée le long de ce bord (en diagonale).
+  { src: DEUX_SOLEILS_PORTRAIT, retouche: { x: 1677, y: 2285, rayon: 52, decalage: -105, decalageY: -105 }, sorties: [
+    { fichier: 'assets/theme-picture/deux-soleils-portrait-1200.webp', largeur: 1200, format: 'image/webp', qualite: 0.8 },
+    { fichier: 'assets/theme-picture/deux-soleils-portrait-1200.jpg', largeur: 1200, format: 'image/jpeg', qualite: 0.82 },
   ] },
   ...['peuplement.jpg', 'big-bang-city.png', 'fleuve-colere.jpg', 'fuites-mineures.jpg', 'coulees.jpg', 'relief.png', 'surqualifie-lettres.jpg']
     .map((f) => ({ src: `assets/book-covers/${f}`, sorties: [
@@ -49,12 +61,37 @@ const charger = (s) => new Promise((ok, ko) => { const i = new Image(); i.onload
     base.width = img.naturalWidth; base.height = img.naturalHeight;
     const c = base.getContext('2d');
     c.drawImage(img, 0, 0);
+    if (t.egaliser) {
+      // Luminosité moyenne du ciel par colonne, lissée ; gain par colonne pour ramener chaque
+      // colonne au niveau de la zone de référence (le dessin d'origine).
+      const { y0, y1, ref, lissage } = t.egaliser;
+      const W = base.width, H = base.height;
+      const img = c.getImageData(0, 0, W, H), d = img.data;
+      const lum = new Float64Array(W);
+      const ya = Math.round(y0 * H), yb = Math.round(y1 * H);
+      for (let x = 0; x < W; x++) {
+        let s = 0, n = 0;
+        for (let y = ya; y < yb; y += 2) { const q = (y * W + x) * 4; s += 0.2126 * d[q] + 0.7152 * d[q + 1] + 0.0722 * d[q + 2]; n++; }
+        lum[x] = s / n;
+      }
+      const flou = (v, sig) => { const r = Math.ceil(sig * 3), k = []; let t = 0;
+        for (let i = -r; i <= r; i++) { const w = Math.exp(-(i * i) / (2 * sig * sig)); k.push(w); t += w; }
+        return Array.from(v, (_, x) => { let a = 0; for (let i = -r; i <= r; i++) { const xx = Math.min(W - 1, Math.max(0, x + i)); a += v[xx] * k[i + r]; } return a / t; }); };
+      const lisse = flou(lum, lissage * 2);
+      let cible = 0; for (let x = ref[0]; x < ref[1]; x++) cible += lisse[x]; cible /= (ref[1] - ref[0]);
+      const gain = flou(lisse.map((v, x) => (x >= ref[0] && x < ref[1]) ? 1 : Math.min(1.02, Math.max(0.85, cible / v))), lissage);
+      for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+        const q = (y * W + x) * 4, g = gain[x];
+        d[q] = d[q] * g; d[q + 1] = d[q + 1] * g; d[q + 2] = d[q + 2] * g;
+      }
+      c.putImageData(img, 0, 0);
+    }
     if (t.retouche) {
-      const { x, y, rayon, decalage } = t.retouche;
+      const { x, y, rayon, decalage, decalageY = 0 } = t.retouche;
       const r2 = rayon * 1.7, cote = Math.ceil(r2 * 2);
       const piece = document.createElement('canvas'); piece.width = piece.height = cote;
       const p = piece.getContext('2d');
-      p.drawImage(base, x + decalage - r2, y - r2, cote, cote, 0, 0, cote, cote);
+      p.drawImage(base, x + decalage - r2, y + decalageY - r2, cote, cote, 0, 0, cote, cote);
       const g = p.createRadialGradient(r2, r2, rayon, r2, r2, r2);
       g.addColorStop(0, 'rgba(0,0,0,1)'); g.addColorStop(1, 'rgba(0,0,0,0)');
       p.globalCompositeOperation = 'destination-in'; p.fillStyle = g; p.fillRect(0, 0, cote, cote);
