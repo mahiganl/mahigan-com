@@ -30,6 +30,8 @@ sous-titre, le titre, les descriptions de partage ou l'image de partage). Le con
   (180 px, fond blanc), tirées de `favicon-mahigan.png`.
 - `_redirects` — relaie `/tt/*` vers le site Netlify de Terminal terrestre (dépôt séparé
   `mahiganl/terminal-terrestre`). **Ne pas ajouter de règle `/tt → /tt/`** (boucle).
+- `googlef20a2237bed13e17.html` — validation Google Search Console (propriété https://mahigan.com/).
+  **Ne pas supprimer** : Google le revérifie régulièrement.
 - `robots.txt` — signale les plans du site (racine et Terminal terrestre).
 
 ## Livres
