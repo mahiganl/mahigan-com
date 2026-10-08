@@ -3,7 +3,12 @@
 Site personnel de Mahigan Lepage : une page statique bilingue (FR/EN), `index.html` + `script.js`,
 hébergée sur Netlify (dépôt GitHub `mahiganl/mahigan-com`, publication automatique à chaque push
 sur `main`, sans étape de construction). Le bilinguisme se fait par classes `lang-fr` / `lang-en`
-et `script.js` (qui fixe aussi le titre : « Mahigan | écritures et intelligences »).
+et `script.js` (qui fixe aussi le titre : « Mahigan Lepage, écrivain | voix et territoires »).
+
+**Sous-titre de l'accueil : « Voix & territoires » / « Voice & Territory »** (octobre 2026 : demandes
+de bourses en cours ; l'auteur ne veut pas que l'IA soit annoncée en gros sur le site — ni dans le
+sous-titre, le titre, les descriptions de partage ou l'image de partage). Le contenu sur l'IA
+(projets, bio) reste tel quel ; ne pas toucher à la carte de L'écriture intelligente.
 
 ## Structure
 - `index.html` — la page ; `script.js` — langue, menu mobile, fiches des livres (modale).
@@ -14,10 +19,22 @@ et `script.js` (qui fixe aussi le titre : « Mahigan | écritures et intelligenc
   + JPEG de secours, couvertures en JPEG 600 px, images de projets 560 px. Les originaux lourds
   restent dans le dépôt mais ne sont plus chargés. Relancer : `node outils/images.mjs`.
   Il retouche aussi l'étoile ✦ (filigrane Gemini) dans « Deux soleils ».
-- `assets/partage.jpg` — image de partage (Open Graph) 1200 × 630.
+- `assets/partage.jpg` — image de partage (Open Graph) 1200 × 630 : `taxi-kolkata-1600.jpg` à
+  1200 px de large, décalée de −110 px vers le haut ; « MAHIGAN » (Inter 700, 84 px, à 66 / 62 px)
+  et « Voix & territoires » (Lora, 27 px, à 68 / 176 px). Capture avec Chrome sans interface.
+- Référencement : titre, description et partage centrés sur l'écrivain (livres, prix Nelligan) ;
+  données structurées JSON-LD (Person + livres avec ISBN) dans `<head>` — à tenir à jour avec
+  `booksData` de `script.js` ; `sitemap.xml` (racine) + celui de /tt/ déclarés dans `robots.txt`.
+  Les robots d'indexation voient la version française (`initLanguage`, script.js).
+- Icônes : `assets/favicon/favicon-192.png` (carrée, transparente) et `apple-touch-icon.png`
+  (180 px, fond blanc), tirées de `favicon-mahigan.png`.
 - `_redirects` — relaie `/tt/*` vers le site Netlify de Terminal terrestre (dépôt séparé
   `mahiganl/terminal-terrestre`). **Ne pas ajouter de règle `/tt → /tt/`** (boucle).
-- `robots.txt` — signale le plan du site de Terminal terrestre.
+- `robots.txt` — signale les plans du site (racine et Terminal terrestre).
+
+## Livres
+Sept couvertures en rangées centrées (`.livres`, flex) : 4 + 3 sur écran large, 3 + 3 + 1 sur
+tablette, 2 + 2 + 2 + 1 sur téléphone — pas de case vide décalée (demande de l'auteur).
 
 ## Accueil : Kolkata, la nuit
 Photo de l'auteur (iPhone 4S, Kolkata, 2013) : un taxi jaune filé derrière une vitre mouillée.
@@ -33,7 +50,8 @@ nuit du site (#0f172a) — la photo se fond dans la page sans bord, et peut donc
   de la photo en miroir puis étirés, fondu en haut et à l'extrême gauche, bord bas net).
   Titre, sous-titre et boutons sont dans la nuit, ramenés vers le centre (`.hero-texte` : left
   20vw, top 27 % sous la barre) ; leur taille suit la largeur (vw). L'auteur accepte qu'ils
-  chevauchent un peu les motifs.
+  chevauchent un peu les motifs. Sous-titre et boutons sont **centrés sous MAHIGAN** (`.hero-texte`
+  en `fit-content`, `.hero-boutons` centrés), en FR comme en EN.
 - Flèche et crédit (« Kolkata, 2013 • Photo : Mahigan Lepage ») : bande noire de la portière
   (y ≈ 86 % de la photo).
 - Écrans en hauteur : photo cadrée sur le taxi et les lumières dans le bas, texte au-dessus.

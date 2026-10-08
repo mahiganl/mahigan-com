@@ -3,29 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mahigan | écritures et intelligences</title>
-    <meta name="description" content="Site officiel de Mahigan Lepage - Écrivain, docteur en littérature et explorateur de l'intelligence artificielle.">
+    <title>Mahigan Lepage, écrivain | voix et territoires</title>
+    <meta name="description" content="Mahigan Lepage, écrivain québécois originaire de la Gaspésie : récits au croisement de la voix et du territoire. Relief (prix Émile-Nelligan), Coulées, Big Bang City, Peuplement.">
     <meta name="author" content="Mahigan Lepage">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="theme-color" content="#0f172a">
     <link rel="canonical" href="https://mahigan.com/">
     <!-- Partage (Facebook, LinkedIn, X, Bluesky, messageries) -->
     <meta property="og:site_name" content="Mahigan Lepage">
     <meta property="og:locale" content="fr_CA">
     <meta property="og:locale:alternate" content="en_US">
-    <meta property="og:type" content="website">
+    <meta property="og:type" content="profile">
+    <meta property="profile:first_name" content="Mahigan">
+    <meta property="profile:last_name" content="Lepage">
     <meta property="og:url" content="https://mahigan.com/">
-    <meta property="og:title" content="Mahigan | écritures et intelligences">
-    <meta property="og:description" content="Site de Mahigan Lepage : écrivain, docteur en littérature et explorateur de l'intelligence artificielle. Livres, essais et projets d'écriture numérique.">
+    <meta property="og:title" content="Mahigan Lepage | voix et territoires">
+    <meta property="og:description" content="Écrivain québécois originaire de la Gaspésie. Récits au croisement de la voix et du territoire : Relief (prix Émile-Nelligan), Coulées, Fuites mineures, Big Bang City, Peuplement.">
     <meta property="og:image" content="https://mahigan.com/assets/partage.jpg">
+    <meta property="og:image:type" content="image/jpeg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="MAHIGAN — Écritures et intelligences, sur une photo de nuit à Kolkata : un taxi jaune filé derrière une vitre mouillée">
+    <meta property="og:image:alt" content="MAHIGAN — Voix &amp; territoires, sur une photo de nuit à Kolkata : un taxi jaune filé derrière une vitre mouillée">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Mahigan | écritures et intelligences">
-    <meta name="twitter:description" content="Livres, essais et projets d'écriture numérique de Mahigan Lepage.">
+    <meta name="twitter:creator" content="@mahiganL">
+    <meta name="twitter:title" content="Mahigan Lepage | voix et territoires">
+    <meta name="twitter:description" content="Écrivain québécois : récits au croisement de la voix et du territoire. Relief (prix Émile-Nelligan), Coulées, Big Bang City, Peuplement.">
     <meta name="twitter:image" content="https://mahigan.com/assets/partage.jpg">
+    <meta name="twitter:image:alt" content="MAHIGAN — Voix &amp; territoires, sur une photo de nuit à Kolkata">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="assets/favicon/favicon-mahigan.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon/favicon-192.png">
+    <link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -71,6 +79,23 @@
             transform: translateY(-8px) scale(1.02);
         }
 
+        /* Livres : 7 couvertures en rangées centrées — 4 + 3 (large), 3 + 3 + 1 (moyen),
+           2 + 2 + 2 + 1 (téléphone) ; la dernière rangée est centrée sous les autres. */
+        .livres {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+        .livres > * { width: calc((100% - 1.5rem) / 2); }
+        @media (min-width: 768px) {
+            .livres { gap: 2rem; }
+            .livres > * { width: calc((100% - 4rem) / 3); }
+        }
+        @media (min-width: 1024px) {
+            .livres > * { width: calc((100% - 6rem) / 4); }
+        }
+
         .fade-in {
             animation: fadeIn 0.8s ease-out forwards;
         }
@@ -113,8 +138,10 @@
             left: max(1.5rem, 20vw);
             top: calc(4rem + (100vh - 4rem) * 0.27);
         }
-        .hero-titre { width: fit-content; }   /* sous-titre centré sous MAHIGAN */
+        .hero-texte { width: fit-content; }
+        .hero-titre { width: fit-content; margin-inline: auto; }   /* sous-titre centré sous MAHIGAN */
         .hero-titre p { text-align: center; }
+        .hero-boutons { justify-content: center; }                 /* boutons centrés sous le titre */
         .hero-bas {                         /* sur la portière noire */
             position: absolute;
             z-index: 10;
@@ -156,6 +183,163 @@
             margin-top: 1rem;
         }
     </style>
+    <!-- Données structurées (Google) : l'auteur et ses livres -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://mahigan.com/#site",
+          "url": "https://mahigan.com/",
+          "name": "Mahigan Lepage",
+          "inLanguage": [
+            "fr",
+            "en"
+          ],
+          "about": {
+            "@id": "https://mahigan.com/#mahigan"
+          }
+        },
+        {
+          "@type": "Person",
+          "@id": "https://mahigan.com/#mahigan",
+          "name": "Mahigan Lepage",
+          "givenName": "Mahigan",
+          "familyName": "Lepage",
+          "url": "https://mahigan.com/",
+          "image": "https://mahigan.com/assets/about-pictures/mahigan-lepage.jpg",
+          "jobTitle": [
+            "Écrivain",
+            "Interprète de conférence"
+          ],
+          "description": "Écrivain québécois originaire de la Gaspésie, auteur de récits au croisement de la voix et du territoire.",
+          "award": "Prix Émile-Nelligan 2012 (Relief)",
+          "sameAs": [
+            "https://mahigan.substack.com",
+            "https://x.com/mahiganL"
+          ],
+          "workExample": [
+            {
+              "@type": "Book",
+              "name": "Peuplement",
+              "author": {
+                "@id": "https://mahigan.com/#mahigan"
+              },
+              "inLanguage": "fr",
+              "datePublished": "2021",
+              "publisher": {
+                "@type": "Organization",
+                "name": "Leméac Éditeur"
+              },
+              "isbn": "978-2-76094-866-2",
+              "url": "https://www.leslibraires.ca/livres/peuplement-mahigan-lepage-9782760948662.html"
+            },
+            {
+              "@type": "Book",
+              "name": "Big Bang City : voyage en mégapoles d'Asie",
+              "author": {
+                "@id": "https://mahigan.com/#mahigan"
+              },
+              "inLanguage": "fr",
+              "datePublished": "2017",
+              "publisher": {
+                "@type": "Organization",
+                "name": "Leméac Éditeur"
+              },
+              "isbn": "978-2-7609-3658-4",
+              "url": "https://www.leslibraires.ca/livres/big-bang-city-mahigan-lepage-9782760936584.html"
+            },
+            {
+              "@type": "Book",
+              "name": "le fleuve colère",
+              "author": {
+                "@id": "https://mahigan.com/#mahigan"
+              },
+              "inLanguage": "fr",
+              "datePublished": "2017",
+              "publisher": {
+                "@type": "Organization",
+                "name": "Éditions du Noroît"
+              },
+              "isbn": "978-2-89766-071-0",
+              "url": "https://www.leslibraires.ca/livres/le-fleuve-colere-mahigan-lepage-9782897660710.html"
+            },
+            {
+              "@type": "Book",
+              "name": "Fuites mineures",
+              "author": {
+                "@id": "https://mahigan.com/#mahigan"
+              },
+              "inLanguage": "fr",
+              "datePublished": "2014",
+              "publisher": {
+                "@type": "Organization",
+                "name": "Éditions Mémoire d'encrier"
+              },
+              "isbn": "978-2-89712-254-6",
+              "url": "https://www.leslibraires.ca/livres/fuites-mineures-mahigan-lepage-9782897122546.html"
+            },
+            {
+              "@type": "Book",
+              "name": "Coulées",
+              "author": {
+                "@id": "https://mahigan.com/#mahigan"
+              },
+              "inLanguage": "fr",
+              "datePublished": "2012",
+              "publisher": {
+                "@type": "Organization",
+                "name": "Éditions Mémoire d'encrier"
+              },
+              "isbn": "978-2-923713-70-0",
+              "url": "https://www.leslibraires.ca/livres/coulees-mahigan-lepage-9782923713700.html"
+            },
+            {
+              "@type": "Book",
+              "name": "Relief",
+              "author": {
+                "@id": "https://mahigan.com/#mahigan"
+              },
+              "inLanguage": "fr",
+              "datePublished": "2011",
+              "publisher": {
+                "@type": "Organization",
+                "name": "Éditions du Noroît"
+              },
+              "isbn": "978-2-89018-725-2",
+              "url": "https://www.leslibraires.ca/livres/relief-mahigan-lepage-9782890187252.html",
+              "award": "Prix Émile-Nelligan 2012"
+            },
+            {
+              "@type": "Book",
+              "name": "Surqualifié : lettres à des sociétés sans visage",
+              "author": {
+                "@type": "Person",
+                "name": "Joey Comeau"
+              },
+              "translator": {
+                "@id": "https://mahigan.com/#mahigan"
+              },
+              "translationOfWork": {
+                "@type": "Book",
+                "name": "Overqualified",
+                "inLanguage": "en"
+              },
+              "inLanguage": "fr",
+              "datePublished": "2017",
+              "publisher": {
+                "@type": "Organization",
+                "name": "Éditions Mémoire d'encrier"
+              },
+              "isbn": "978-2-89712-399-4",
+              "url": "https://www.leslibraires.ca/livres/surqualifie-joey-comeau-9782897123994.html"
+            }
+          ]
+        }
+      ]
+    }
+    </script>
 </head>
 
 <body class="bg-slate-900 text-slate-300 font-serif antialiased">
@@ -258,11 +442,11 @@
                 MAHIGAN
             </h1>
             <p class="text-xl md:text-2xl text-slate-200 mb-8 font-light">
-                <span class="lang-fr">Écritures & intelligences</span>
-                <span class="lang-en">Writings & Intelligences</span>
+                <span class="lang-fr">Voix & territoires</span>
+                <span class="lang-en">Voice & Territory</span>
             </p>
             </div>
-            <div class="flex flex-wrap gap-4">
+            <div class="hero-boutons flex flex-wrap gap-4">
                 <a href="#books" class="px-7 py-3 bg-violet-600 hover:bg-violet-500 text-white font-sans font-medium rounded-lg transition-all hover:shadow-lg hover:shadow-violet-500/25">
                     <span class="lang-fr">Découvrir les livres</span>
                     <span class="lang-en">Discover the books</span>
@@ -297,7 +481,8 @@
                         <div class="absolute -inset-2 bg-gradient-to-r from-indigo-500/20 to-violet-500/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         <img
                             src="assets/about-pictures/mahigan-lepage.jpg"
-                            alt="Mahigan Lepage"
+                            alt="Mahigan Lepage, écrivain"
+                            width="800" height="800" loading="lazy"
                             class="relative rounded-2xl w-full shadow-2xl"
                         >
                     </div>
@@ -345,13 +530,13 @@
                 </p>
             </div>
 
-            <!-- Books Grid -->
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+            <!-- Livres : rangées centrées (4 + 3 sur écran large), pas de case vide décalée -->
+            <div class="livres">
 
                 <!-- Peuplement -->
                 <div class="book-card group cursor-pointer" onclick="openBookModal('peuplement')">
                     <div class="relative overflow-hidden rounded-xl glow-hover">
-                        <img src="assets/book-covers/peuplement-600.jpg" loading="lazy" width="600" alt="Peuplement" class="w-full aspect-[2/3] object-cover">
+                        <img src="assets/book-covers/peuplement-600.jpg" loading="lazy" width="600" height="900" alt="Peuplement" class="w-full aspect-[2/3] object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform">
                             <span class="text-xs font-sans text-indigo-300">2021 &middot; Leméac</span>
@@ -367,7 +552,7 @@
                 <!-- Big Bang City -->
                 <div class="book-card group cursor-pointer" onclick="openBookModal('bigbangcity')">
                     <div class="relative overflow-hidden rounded-xl glow-hover">
-                        <img src="assets/book-covers/big-bang-city-600.jpg" loading="lazy" width="600" alt="Big Bang City" class="w-full aspect-[2/3] object-cover">
+                        <img src="assets/book-covers/big-bang-city-600.jpg" loading="lazy" width="600" height="900" alt="Big Bang City" class="w-full aspect-[2/3] object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform">
                             <span class="text-xs font-sans text-indigo-300">2017 &middot; Leméac</span>
@@ -383,7 +568,7 @@
                 <!-- le fleuve colère -->
                 <div class="book-card group cursor-pointer" onclick="openBookModal('fleuvecolere')">
                     <div class="relative overflow-hidden rounded-xl glow-hover">
-                        <img src="assets/book-covers/fleuve-colere-600.jpg" loading="lazy" width="600" alt="le fleuve colère" class="w-full aspect-[2/3] object-cover">
+                        <img src="assets/book-covers/fleuve-colere-600.jpg" loading="lazy" width="600" height="900" alt="le fleuve colère" class="w-full aspect-[2/3] object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform">
                             <span class="text-xs font-sans text-indigo-300">2017 &middot; Noroît</span>
@@ -399,7 +584,7 @@
                 <!-- Fuites mineures -->
                 <div class="book-card group cursor-pointer" onclick="openBookModal('fuitesmineures')">
                     <div class="relative overflow-hidden rounded-xl glow-hover">
-                        <img src="assets/book-covers/fuites-mineures-600.jpg" loading="lazy" width="600" alt="Fuites mineures" class="w-full aspect-[2/3] object-cover">
+                        <img src="assets/book-covers/fuites-mineures-600.jpg" loading="lazy" width="600" height="900" alt="Fuites mineures" class="w-full aspect-[2/3] object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform">
                             <span class="text-xs font-sans text-indigo-300">2014 &middot; Mémoire d'encrier</span>
@@ -415,7 +600,7 @@
                 <!-- Coulées -->
                 <div class="book-card group cursor-pointer" onclick="openBookModal('coulees')">
                     <div class="relative overflow-hidden rounded-xl glow-hover">
-                        <img src="assets/book-covers/coulees-600.jpg" loading="lazy" width="600" alt="Coulées" class="w-full aspect-[2/3] object-cover">
+                        <img src="assets/book-covers/coulees-600.jpg" loading="lazy" width="600" height="900" alt="Coulées" class="w-full aspect-[2/3] object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform">
                             <span class="text-xs font-sans text-indigo-300">2012 &middot; Mémoire d'encrier</span>
@@ -431,7 +616,7 @@
                 <!-- Relief -->
                 <div class="book-card group cursor-pointer" onclick="openBookModal('relief')">
                     <div class="relative overflow-hidden rounded-xl glow-hover">
-                        <img src="assets/book-covers/relief-600.jpg" loading="lazy" width="600" alt="Relief" class="w-full aspect-[2/3] object-cover">
+                        <img src="assets/book-covers/relief-600.jpg" loading="lazy" width="600" height="900" alt="Relief" class="w-full aspect-[2/3] object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform">
                             <span class="text-xs font-sans text-indigo-300">2011 &middot; Noroît</span>
@@ -447,7 +632,7 @@
                 <!-- Surqualifié (Translation) -->
                 <div class="book-card group cursor-pointer" onclick="openBookModal('surqualifie')">
                     <div class="relative overflow-hidden rounded-xl glow-hover">
-                        <img src="assets/book-covers/surqualifie-lettres-600.jpg" loading="lazy" width="600" alt="Surqualifié" class="w-full aspect-[2/3] object-cover">
+                        <img src="assets/book-covers/surqualifie-lettres-600.jpg" loading="lazy" width="600" height="900" alt="Surqualifié" class="w-full aspect-[2/3] object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                         <div class="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform">
                             <span class="text-xs font-sans text-indigo-300">2017 &middot; Mémoire d'encrier</span>

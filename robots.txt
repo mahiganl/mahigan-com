@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 
+Sitemap: https://mahigan.com/sitemap.xml
 Sitemap: https://mahigan.com/tt/sitemap.xml

@@ -195,9 +195,9 @@ function setLanguage(lang) {
 
     // Update page title
     if (lang === 'en') {
-        document.title = 'Mahigan | writings and intelligences';
+        document.title = 'Mahigan Lepage, writer | voice and territory';
     } else {
-        document.title = 'Mahigan | écritures et intelligences';
+        document.title = 'Mahigan Lepage, écrivain | voix et territoires';
     }
 }
 
@@ -208,7 +208,10 @@ function toggleLanguage() {
 
 function initLanguage() {
     const savedLang = localStorage.getItem('mahigan-lang');
-    const browserLang = navigator.language.startsWith('fr') ? 'fr' : 'en';
+    // Robots d'indexation (Google, Bing…) : on garde le français, langue du document,
+    // pour que le titre et le texte indexés correspondent à la description.
+    const robot = /bot|crawl|spider|slurp|lighthouse/i.test(navigator.userAgent);
+    const browserLang = robot || navigator.language.startsWith('fr') ? 'fr' : 'en';
     const initialLang = savedLang || browserLang;
     setLanguage(initialLang);
 }
