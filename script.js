@@ -8,6 +8,43 @@
 // ============================================
 
 const booksData = {
+    // Nouveauté (édition de l'auteur), mise à la une dans « Livres ».
+    // Pour mettre en vente : coller le lien de paiement (Square, etc.) dans `lien` et le prix dans `prix`.
+    // Sans lien, le bouton affiche « Bientôt disponible ».
+    carnetsnepal: {
+        title: "Carnets du Népal",
+        subtitle: {
+            fr: "Nouvelle édition revue et corrigée",
+            en: "New revised edition"
+        },
+        year: "2026",
+        publisher: "mahigan.com",
+        pages: "78",
+        isNew: true,
+        extraitComplet: true,   // le premier carnet en entier : #extraitModal (index.html)
+        firstEdition: {
+            fr: "Première édition : Publie.net, 2008",
+            en: "First edition: Publie.net, 2008"
+        },
+        offres: [
+            {
+                format: { fr: "Livre numérique", en: "Ebook" },
+                detail: { fr: "ePub + PDF, sans DRM", en: "ePub + PDF, DRM-free" },
+                prix: 9.99,
+                lien: ""        // lien de paiement Square, une fois les ISBN obtenus
+            }
+        ],
+        summary: {
+            fr: "Avril 2008. Un jeune doctorant quitte Paris sur un coup de tête, avec un petit sac, deux bouquins et quatre carnets Moleskine. Un mois au Népal : Katmandou, Pokhara, le tour de l’Annapurna, la jungle de Chitwan. Le royaume est en passe de devenir une république; le voyageur, lui, tombe de sommeil.\n\nCes carnets ne racontent pas le voyage. Ils s’écrivent depuis les lieux mêmes où l’on écrit : aéroports, transports, chambres et terrasses. Quatre fois le même trajet, chaque fois sous un autre angle, kaléidoscope où se recomposent les routes, les villes, les fatigues, les brûlures et les voix, le tourisme de masse et les chiens errants.\n\nPremier texte publié de Mahigan Lepage, paru chez Publie.net en 2008, ce livre raconte en filigrane cela même qui lui donne naissance : assumer d’écrire. Cette nouvelle édition, revue et corrigée, reproduit certaines pages manuscrites des carnets.",
+            en: "April 2008. A young doctoral student leaves Paris on a whim, with a small bag, two books and four Moleskine notebooks. A month in Nepal: Kathmandu, Pokhara, the Annapurna circuit, the Chitwan jungle. The kingdom is about to become a republic; the traveller, for his part, is falling asleep on his feet.\n\nThese notebooks do not tell the journey. They are written from the very places where one writes: airports, transport, rooms and terraces. The same route four times over, each time from another angle, a kaleidoscope in which roads, cities, fatigue, burns and voices, mass tourism and stray dogs are pieced together again.\n\nMahigan Lepage’s first published text, released by Publie.net in 2008, this book quietly tells the very thing that gave birth to it: owning up to writing. This new, revised edition reproduces some handwritten pages from the notebooks."
+        },
+        excerpt: {
+            fr: "Les bruits de l’aéroport m’ont tenu éveillé le plus clair du temps. Est-ce l’effet des somnifères? – à un moment donné j’ai dû m’assoupir. Les minutes alors m’ont paru des semaines. Je me suis levé, somnambule. J’ai voyagé par air, par terre, par rivière. J’ai marché de villes en villages, de montagnes en forêts. J’étais au pays de l’éveil et je tombais de sommeil. Voyageur entre les mondes.",
+            en: "The noises of the airport kept me awake most of the time. Was it the sleeping pills? – at some point I must have dozed off. The minutes then felt like weeks. I got up, a sleepwalker. I travelled by air, by land, by river. I walked from towns to villages, from mountains to forests. I was in the land of awakening and I was falling asleep. A traveller between worlds."
+        },
+        cover: "assets/book-covers/carnets-du-nepal-600.jpg"
+    },
+
     peuplement: {
         title: "Peuplement",
         titleEn: "Peopling",
@@ -217,6 +254,58 @@ function initLanguage() {
 }
 
 // ============================================
+// ACHAT DIRECT (livres vendus sur le site)
+// ============================================
+
+function formatPrix(prix, lang) {
+    return new Intl.NumberFormat(lang === 'fr' ? 'fr-CA' : 'en-CA', { style: 'currency', currency: 'CAD' }).format(prix);
+}
+
+// Une ligne par format : nom, détail, prix, bouton. Les deux langues sont dans le HTML
+// (classes lang-fr / lang-en), comme dans index.html : le changement de langue suit sans recalcul.
+function offresHTML(book) {
+    const deux = (fr, en) => `<span class="lang-fr">${fr}</span><span class="lang-en">${en}</span>`;
+    return book.offres.map((o) => {
+        const enVente = Boolean(o.lien) && o.prix != null;
+        const bouton = enVente
+            ? `<a href="${o.lien}" class="flex-shrink-0 px-5 py-2.5 bg-violet-600 hover:bg-violet-500 text-white font-sans font-medium rounded-lg transition-all hover:shadow-lg hover:shadow-violet-500/25">${deux('Acheter', 'Buy')}</a>`
+            : `<span class="flex-shrink-0 px-4 py-2.5 border border-slate-600 text-slate-400 font-sans text-sm rounded-lg">${deux('Bientôt disponible', 'Coming soon')}</span>`;
+        return `
+            <div class="offre">
+                <div class="flex-1 min-w-0">
+                    <div class="font-sans font-semibold text-slate-100">${deux(o.format.fr, o.format.en)}</div>
+                    <div class="text-sm text-slate-400">${deux(o.detail.fr, o.detail.en)}</div>
+                </div>
+                ${enVente ? `<div class="font-sans font-semibold text-slate-100 whitespace-nowrap">${deux(formatPrix(o.prix, 'fr'), formatPrix(o.prix, 'en'))}</div>` : ''}
+                ${bouton}
+            </div>`;
+    }).join('');
+}
+
+function initOffres() {
+    ['offresCarnetsNepal', 'offresExtrait'].forEach((id) => {
+        const zone = document.getElementById(id);
+        if (zone) zone.innerHTML = offresHTML(booksData.carnetsnepal);
+    });
+}
+
+// Extrait de Carnets du Népal (le premier carnet), en pleine page.
+function openExtrait() {
+    const extrait = document.getElementById('extraitModal');
+    if (!extrait) return;
+    extrait.classList.remove('hidden');
+    extrait.scrollTop = 0;
+    document.body.style.overflow = 'hidden';
+}
+
+function closeExtrait() {
+    const extrait = document.getElementById('extraitModal');
+    if (!extrait || extrait.classList.contains('hidden')) return;
+    extrait.classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
+// ============================================
 // MODAL DES LIVRES
 // ============================================
 
@@ -243,6 +332,7 @@ function openBookModal(bookId) {
                 ${book.subtitle ? `<p class="text-slate-300 mb-2">${getText(book.subtitle)}</p>` : ''}
                 ${book.titleEn && lang === 'en' ? `<p class="text-slate-500 text-sm italic mb-2">(${book.titleEn})</p>` : ''}
                 ${book.award ? `<span class="inline-block px-3 py-1 bg-amber-500/20 text-amber-300 text-xs font-sans font-medium rounded-full mb-4">${getText(book.award)}</span>` : ''}
+                ${book.isNew ? `<span class="inline-block px-3 py-1 bg-cyan-500/15 text-cyan-300 text-xs font-sans font-medium rounded-full mb-4">${lang === 'fr' ? 'Nouveauté' : 'New release'}</span>` : ''}
                 ${book.isTranslation ? `
                     <p class="text-sm text-slate-500 mb-4">
                         <span class="lang-fr">Traduction de <em>${book.originalTitle}</em> de ${book.author}</span>
@@ -258,6 +348,7 @@ function openBookModal(bookId) {
                     <span>&middot;</span>
                     <span>${book.pages} ${lang === 'fr' ? 'pages' : 'pages'}</span>
                 </div>
+                ${book.firstEdition ? `<p class="text-sm text-slate-400 mb-2">${getText(book.firstEdition)}</p>` : ''}
 
                 <div class="text-sm text-slate-300 mb-6">
                     ${book.isbnPaper ? `<div>${lang === 'fr' ? 'ISBN papier' : 'ISBN paper'}: ${book.isbnPaper}</div>` : ''}
@@ -276,7 +367,7 @@ function openBookModal(bookId) {
             ${book.summary ? `
                 <div>
                     <h3 class="font-sans font-semibold text-slate-200 mb-3">${lang === 'fr' ? 'Résumé' : 'Summary'}</h3>
-                    <p class="text-slate-300 leading-relaxed">${getText(book.summary)}</p>
+                    <p class="text-slate-300 leading-relaxed whitespace-pre-line">${getText(book.summary)}</p>
                 </div>
             ` : ''}
 
@@ -284,9 +375,19 @@ function openBookModal(bookId) {
                 <div>
                     <h3 class="font-sans font-semibold text-slate-200 mb-3">${lang === 'fr' ? 'Extrait' : 'Excerpt'}</h3>
                     <p class="text-slate-300 leading-relaxed whitespace-pre-line">${getText(book.excerpt)}</p>
+                    ${book.extraitComplet ? `
+                    <button type="button" onclick="closeBookModal(); openExtrait();" class="mt-4 inline-flex items-center gap-2 text-indigo-300 hover:text-indigo-200 font-sans font-medium transition-colors">
+                        ${lang === 'fr' ? 'Lire le premier carnet en entier' : 'Read the whole first notebook'}
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                    </button>` : ''}
                 </div>
             ` : ''}
 
+            ${book.offres ? `
+            <div class="pt-6 border-t border-slate-700">
+                <div class="offres">${offresHTML(book)}</div>
+            </div>
+            ` : `
             <div class="pt-4 border-t border-slate-700">
                 <div class="flex flex-wrap gap-4 items-center">
                     <a href="${book.buyLink}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-6 py-3 bg-violet-600 hover:bg-violet-500 text-white font-sans font-medium rounded-lg transition-all">
@@ -298,6 +399,7 @@ function openBookModal(bookId) {
                     ${book.paperOnly ? `<span class="text-sm text-slate-500 italic">${lang === 'fr' ? 'Disponible en version papier seulement' : 'Available in paper version only'}</span>` : ''}
                 </div>
             </div>
+            `}
         </div>
     `;
 
@@ -394,6 +496,7 @@ function initKeyboardNav() {
         // Close modal with Escape
         if (e.key === 'Escape') {
             closeBookModal();
+            closeExtrait();
         }
     });
 
@@ -401,6 +504,11 @@ function initKeyboardNav() {
     document.getElementById('bookModal')?.addEventListener('click', (e) => {
         if (e.target.id === 'bookModal') {
             closeBookModal();
+        }
+    });
+    document.getElementById('extraitModal')?.addEventListener('click', (e) => {
+        if (e.target.id === 'extraitModal') {
+            closeExtrait();
         }
     });
 }
@@ -411,6 +519,7 @@ function initKeyboardNav() {
 
 document.addEventListener('DOMContentLoaded', () => {
     initLanguage();
+    initOffres();
     initMobileMenu();
     initSmoothScroll();
     initScrollAnimations();
@@ -423,3 +532,5 @@ document.addEventListener('DOMContentLoaded', () => {
 // Make functions globally available
 window.openBookModal = openBookModal;
 window.closeBookModal = closeBookModal;
+window.openExtrait = openExtrait;
+window.closeExtrait = closeExtrait;

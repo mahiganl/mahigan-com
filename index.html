@@ -96,6 +96,96 @@
             .livres > * { width: calc((100% - 6rem) / 4); }
         }
 
+        /* Nouveauté à la une (Carnets du Népal) : recto + quatrième de couverture + achat.
+           Téléphone : recto, achat, quatrième ; tablette : recto | quatrième, achat dessous ;
+           écran large : les trois côte à côte. Turquoise de la couverture : #1d7189. */
+        .nouveaute { margin-bottom: 6rem; }
+        .nouveaute-etiquette {
+            display: table;
+            margin: 0 auto 2rem;
+            padding: 0.3rem 0.9rem;
+            border: 1px solid rgba(94, 186, 210, 0.45);
+            border-radius: 9999px;
+            color: #8fd3e4;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+        }
+        .nouveaute-grille {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+        .nouveaute-recto {
+            display: block;
+            width: min(100%, 20rem);
+            margin-inline: auto;
+            cursor: pointer;
+        }
+        .nouveaute-recto img { box-shadow: 0 25px 60px -15px rgba(29, 113, 137, 0.55); }
+        /* Quatrième : au moins aussi haute que le recto (étirée par la grille), plus si le texte l'exige. */
+        .nouveaute-verso {
+            container-type: inline-size;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 8% 8% 13%;
+            border-radius: 0.375rem;
+            background: #1d7189;
+            color: #eef7f9;
+            line-height: 1.5;
+            box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.6);
+        }
+        /* Le texte suit la largeur de la quatrième (unités cqw : mesurées sur .nouveaute-verso). */
+        .nouveaute-verso > div { font-size: 0.9rem; font-size: max(0.8rem, 3.45cqw); }
+        .nouveaute-verso p + p { margin-top: 0.8em; }
+        .nouveaute-verso-pied {
+            position: absolute;
+            left: 0; right: 0; bottom: 4.5%;
+            text-align: center;
+            font-family: Inter, system-ui, sans-serif;
+            font-size: 0.7rem;
+            font-size: max(0.65rem, 3cqw);
+            letter-spacing: 0.2em;
+            opacity: 0.85;
+        }
+        .nouveaute-infos { text-align: center; }
+        .offres { display: flex; flex-direction: column; gap: 0.75rem; max-width: 26rem; margin-inline: auto; }
+        @media (max-width: 639px) {
+            .nouveaute-verso { order: 3; }   /* téléphone : l'achat d'abord, la quatrième ensuite */
+        }
+        @media (min-width: 640px) {
+            .nouveaute-grille { grid-template-columns: 1fr 1fr; max-width: 54rem; margin-inline: auto; align-items: stretch; }
+            .nouveaute-recto { width: 100%; align-self: start; }
+            .nouveaute-infos { grid-column: 1 / -1; }
+        }
+        @media (min-width: 1280px) {
+            .nouveaute-grille { grid-template-columns: 1fr 1fr 0.9fr; max-width: none; gap: 2.5rem; }
+            .nouveaute-infos { grid-column: auto; align-self: center; text-align: left; }
+            .offres { margin-inline: 0; }
+        }
+        /* Extrait : lecture confortable, comme une page du livre ; ◇ entre les fragments (comme dans l'ePub). */
+        .extrait-manuscrit { max-width: 22rem; margin: 0 auto 3.5rem; }
+        .extrait-texte { font-size: 1.125rem; line-height: 1.85; color: #e2e8f0; hyphens: auto; }
+        .extrait-texte p { text-indent: 1.5em; }
+        .extrait-texte p:first-child, .extrait-texte .extrait-losange + p { text-indent: 0; }
+        .extrait-texte p + p { margin-top: 0.4em; }
+        .extrait-texte .extrait-losange { text-indent: 0; text-align: center; color: #5ebad2; font-size: 1.3em; margin: 1.6em 0; }
+        @media (min-width: 768px) { .extrait-texte { text-align: justify; } }
+        .offre {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.9rem 1rem;
+            border: 1px solid rgba(71, 85, 105, 0.6);
+            border-radius: 0.75rem;
+            background: rgba(30, 41, 59, 0.6);
+            text-align: left;
+        }
+
         .fade-in {
             animation: fadeIn 0.8s ease-out forwards;
         }
@@ -220,6 +310,18 @@
             "https://x.com/mahiganL"
           ],
           "workExample": [
+            {
+              "@type": "Book",
+              "name": "Carnets du Népal",
+              "author": {
+                "@id": "https://mahigan.com/#mahigan"
+              },
+              "inLanguage": "fr",
+              "datePublished": "2026",
+              "bookEdition": "Nouvelle édition revue et corrigée (première édition : Publie.net, 2008)",
+              "image": "https://mahigan.com/assets/book-covers/carnets-du-nepal-900.jpg",
+              "url": "https://mahigan.com/#books"
+            },
             {
               "@type": "Book",
               "name": "Peuplement",
@@ -530,6 +632,57 @@
                 </p>
             </div>
 
+            <!-- Nouveauté à la une : Carnets du Népal (recto, quatrième de couverture, achat).
+                 Formats, prix et liens de paiement : booksData.carnetsnepal.offres (script.js). -->
+            <div class="nouveaute">
+                <p class="nouveaute-etiquette font-sans">
+                    <span class="lang-fr">Nouveauté</span>
+                    <span class="lang-en">New release</span>
+                </p>
+                <div class="nouveaute-grille">
+                    <button type="button" class="nouveaute-recto book-card" onclick="openBookModal('carnetsnepal')">
+                        <img src="assets/book-covers/carnets-du-nepal-900.jpg"
+                             srcset="assets/book-covers/carnets-du-nepal-600.jpg 600w, assets/book-covers/carnets-du-nepal-900.jpg 900w"
+                             sizes="(min-width: 1280px) 370px, (min-width: 640px) min(45vw, 420px), 80vw"
+                             width="900" height="1350" loading="lazy"
+                             alt="Carnets du Népal, Mahigan Lepage : couverture"
+                             class="w-full rounded-md shadow-2xl">
+                    </button>
+
+                    <div class="nouveaute-verso" role="group" aria-label="Quatrième de couverture">
+                        <div class="lang-fr">
+                            <p>Avril 2008. Un jeune doctorant quitte Paris sur un coup de tête, avec un petit sac, deux bouquins et quatre carnets Moleskine. Un mois au Népal : Katmandou, Pokhara, le tour de l’Annapurna, la jungle de Chitwan. Le royaume est en passe de devenir une république; le voyageur, lui, tombe de sommeil.</p>
+                            <p>Ces carnets ne racontent pas le voyage. Ils s’écrivent depuis les lieux mêmes où l’on écrit : aéroports, transports, chambres et terrasses. Quatre fois le même trajet, chaque fois sous un autre angle, kaléidoscope où se recomposent les routes, les villes, les fatigues, les brûlures et les voix, le tourisme de masse et les chiens errants.</p>
+                            <p>Premier texte publié de Mahigan Lepage, paru chez Publie.net en 2008, ce livre raconte en filigrane cela même qui lui donne naissance : assumer d’écrire. Cette nouvelle édition, revue et corrigée, reproduit certaines pages manuscrites des carnets.</p>
+                        </div>
+                        <div class="lang-en">
+                            <p>April 2008. A young doctoral student leaves Paris on a whim, with a small bag, two books and four Moleskine notebooks. A month in Nepal: Kathmandu, Pokhara, the Annapurna circuit, the Chitwan jungle. The kingdom is about to become a republic; the traveller, for his part, is falling asleep on his feet.</p>
+                            <p>These notebooks do not tell the journey. They are written from the very places where one writes: airports, transport, rooms and terraces. The same route four times over, each time from another angle, a kaleidoscope in which roads, cities, fatigue, burns and voices, mass tourism and stray dogs are pieced together again.</p>
+                            <p>Mahigan Lepage’s first published text, released by Publie.net in 2008, this book quietly tells the very thing that gave birth to it: owning up to writing. This new, revised edition reproduces some handwritten pages from the notebooks.</p>
+                        </div>
+                        <p class="nouveaute-verso-pied">mahigan.com</p>
+                    </div>
+
+                    <div class="nouveaute-infos">
+                        <h3 class="font-sans font-bold text-3xl lg:text-4xl text-slate-100 tracking-tight mb-2">Carnets du Népal</h3>
+                        <p class="text-slate-300 mb-1">
+                            <span class="lang-fr">Carnets de voyage · nouvelle édition, 2026</span>
+                            <span class="lang-en">Travel notebooks · new edition, 2026</span>
+                        </p>
+                        <p class="text-sm text-slate-500 mb-6">
+                            <span class="lang-fr">Revue et corrigée, avec des pages manuscrites. Première édition : Publie.net, 2008.</span>
+                            <span class="lang-en">Revised, with handwritten pages. First edition: Publie.net, 2008. In French.</span>
+                        </p>
+                        <div id="offresCarnetsNepal" class="offres"></div>
+                        <button type="button" onclick="openExtrait()" class="mt-6 inline-flex items-center gap-2 text-indigo-300 hover:text-indigo-200 font-sans font-medium transition-colors group/link">
+                            <span class="lang-fr">Lire un extrait : le premier carnet</span>
+                            <span class="lang-en">Read an excerpt: the first notebook</span>
+                            <svg class="w-4 h-4 group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
             <!-- Livres : rangées centrées (4 + 3 sur écran large), pas de case vide décalée -->
             <div class="livres">
 
@@ -785,6 +938,62 @@
                 <!-- Content injected by JS -->
             </div>
         </div>
+    </div>
+
+    <!-- Extrait de Carnets du Népal : le premier carnet en entier (texte tiré du texte maître,
+         01 Texte/Carnets_du_Nepal_texte_corrige.md du dossier du livre), avec sa page manuscrite. -->
+    <div id="extraitModal" class="fixed inset-0 z-50 hidden overflow-y-auto bg-slate-900/95 backdrop-blur-sm" role="dialog" aria-modal="true" aria-labelledby="extraitTitre">
+        <button type="button" onclick="closeExtrait()" class="fixed top-4 right-4 z-10 p-2 rounded-full bg-slate-800/80 text-slate-400 hover:text-slate-100 transition-colors" aria-label="Fermer">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+        </button>
+        <article class="extrait max-w-2xl mx-auto px-6 py-16 md:py-20">
+            <header class="text-center mb-12">
+                <p class="nouveaute-etiquette font-sans">
+                    <span class="lang-fr">Extrait</span>
+                    <span class="lang-en">Excerpt</span>
+                </p>
+                <p class="font-sans text-sm uppercase tracking-widest text-slate-400 mb-2">Carnets du Népal</p>
+                <h2 id="extraitTitre" class="font-sans font-bold text-3xl text-slate-100">Carnet n<sup>o</sup> 1. Aéroports</h2>
+                <p class="lang-en text-sm text-slate-500 italic mt-3">The book is in French.</p>
+            </header>
+            <figure class="extrait-manuscrit">
+                <img src="assets/book-covers/carnets-du-nepal-carnet-aeroports.jpg" loading="lazy" width="800" height="1263"
+                     alt="Page manuscrite du premier carnet, « Aéroports », avril 2008" class="w-full rounded-md shadow-2xl">
+                <figcaption class="font-sans text-xs text-slate-500 mt-3 text-center">
+                    <span class="lang-fr">Le carnet manuscrit, avril 2008</span>
+                    <span class="lang-en">The handwritten notebook, April 2008</span>
+                </figcaption>
+            </figure>
+            <div class="extrait-texte" lang="fr">
+                        <p>À la télévision accrochée au mur, les affaires du monde continuent. Il y a des événements, des déclarations – des vitesses.</p>
+                        <p>Lieu où le temps s’est arrêté. Pas de rupture qui viendrait interrompre les discontinuités. Pas de moment où l’on éteindrait les lumières, où l’on fermerait les portes. Où tous les employés passeraient le relais à d’autres en même temps. Une <em>relève</em>, voilà ce qui manque ici. Les corps s’enfoncent dans le temps immobile. On n’en voit que les courbes d’émergence. Sur la rangée de chaises où je suis assis, mes voisins changent de visage à mon insu. On se lève, on part, avant ou après moi. On circule dans les allées, on disparaît derrière les portes ouvertes.</p>
+                        <p>Les horloges disent l’heure plusieurs heures à la fois. C’est bien le signe que quelque chose ne va pas. Tout à l’heure, j’ai demandé l’heure à un compatriote rencontré par hasard. J’ai oublié sa réponse. Il avait une montre. Les gens n’ont plus de montre. Ils ont des téléphones portables. Dans l’avion, on nous demande de les éteindre. Quand on les rallume après l’atterrissage, ils ne donnent plus l’heure juste (qu’est-ce qu’une heure juste?). Une voix de haut-parleur nous informe de l’heure locale, puis, tout de suite après, de la température locale : d’abord le temps qu’il est, ensuite le temps qu’il fait. Les horloges multiples de l’aéroport relativisent la première information (il n’y a pas de thermomètres comparant les températures de New Delhi, de Paris, de Londres, de New York). Je pars à la montagne : j’ai laissé mon téléphone portable à Paris.</p>
+                        <p>Les voix de l’aéroport ne connaissent pas plus de rupture. Quand je ferme les yeux, la rumeur paraît lointaine. Une nappe de voix percée de timbres sonores. Sans transition, la narcose des somnifères fait onduler la nappe, comme un souffle venu du dessous, créant dans la tête des sortes de poches de vide. De grands pans de voix s’effondrent. Pas telle ou telle voix, ni tel ou tel type de voix. Un espace mental. Puis la nappe soufflée s’éloigne encore davantage. À la fin, on la dirait plaquée à la face intérieure du crâne, juste à la frontière du dehors.</p>
+                        <p>Les yeux observent les tableaux lumineux avec attention. Les cerveaux attendent le signal des yeux. Les corps attendent l’ordre des cerveaux. Pour s’arracher au temps englué de l’aéroport, il faut beaucoup de vigilance et de synchronisme. On vous dit de franchir les portes à telle heure, telle minute. En sautant au bon moment, vous vous synchroniserez dans les airs avec d’autres corps fulgurants. Dans l’avion, avant de décoller, la voix de haut-parleur vous assurera que le temps a repris normalement. Il vole entre deux heures locales, New Delhi et Katmandou. Il s’écoule encore un peu lentement mais quand même.</p>
+                        <p class="extrait-losange" aria-hidden="true">◇</p>
+                        <p>Et ici au Népal le temps comme les nuages se prend dans les montagnes.</p>
+                        <p>On m’a dit : enregistrement à six heures, départ à sept. À six heures, je cognais au portail de l’aéroport de Jomsom, pour me faire dire par un garde que le personnel n’était pas encore arrivé. Après une longue attente, le portail s’est ouvert. Je m’y suis engouffré avec d’autres corps passagers. Le temps étiré s’est relâché comme un élastique.</p>
+                        <p>Après l’enregistrement désordonné, une autre attente dans la salle d’embarquement. Je n’ai pas de montre, mais je crois qu’il est passé sept heures. L’avion qui fait la navette Jomsom-Pokhara n’est toujours pas arrivé. Accroché sans doute à la masse des montagnes.</p>
+                        <p>Qu’est-ce qui fait que dans ce temps suspendu, l’écho des voix se fait si insistant? Pour combler l’attente, la distance – le vide?</p>
+                        <p>Souvenir des voix de l’aéroport de New Delhi il y a deux semaines, comme d’une nappe lointaine. Cette fois les voix sont celles, proches, presque familières, d’une dizaine d’Américains – la moitié du total des passagers – postés à quelques mètres de moi. Ils se tiennent en formation groupée. Jamais ils ne laissent tomber la parole ou retomber les rires : quand l’un a fini de parler ou de glousser, un autre a déjà pris le relais. Les voix dessinent dans l’espace un bloc sonore aux parois lisses et solides. Nul étranger ne saurait y pénétrer – qui en aurait envie de toute façon? Les dos tournés forment une sorte de carapace. Une tortue romaine, bruyante comme un char américain.</p>
+                        <p>Enfin l’avion est arrivé. Je m’échappe vers le bruit mécanique. J’écris ces dernières phrases en marchant sur la piste de l’aéroport, suivi de près par le bloc offensif dont l’avion commence à neutraliser la nuisance sonore.</p>
+                        <p class="extrait-losange" aria-hidden="true">◇</p>
+                        <p>Comme à l’aéroport attendre, c’est entendre. Comme ce sont les voix qui délimitent et remplissent les grands espaces vides. Comme ce sont les sons qui meublent l’attente.</p>
+                        <p>Les perceptions sonores s’altèrent dans cet état de fatigue entêtée qu’éprouvent les voyageurs. L’effet modulatoire du sommeil au-dedans n’est pas moins sensible que l’effet modulatoire du vent au-dehors. Les voix, les sons se déplacent dans la tête, se transforment sous la poussée de l’endormissement.</p>
+                        <p>Je suis assis sur une banquette. J’entends un tintement aigu, des chocs métalliques (on rénove l’aéroport de New Delhi, comme déjà un mois auparavant) avec, en arrière-fond, la rumeur des voix. Je suis fatigué, mais encore éveillé. Le tintement est persistant. La rumeur, monotone. Les chocs, même aléatoires, trouvent dans ma tête un rythme régulier. Mais je commence à somnoler. Entre les chocs il n’y a plus d’enchaînement : chaque bruit se sépare, devient indépendant. Le tintement se fait discontinu. Le volume des voix se met à osciller, selon que je m’endors ou me réveille à moitié. Maintenant je dors pour de bon. Il n’y a plus de tintement, plus de choc. Les voix ne sont plus des voix, mais des hallucinations : les images sonores du rêve. Soudain un choc retentit. L’éveil brutal ramène en masse les nappes vocales, flot de grosses vagues. Une voix de haut-parleur incompréhensible surfe sur la houle. Le tintement a repris. Je suis de nouveau éveillé. J’écris.</p>
+                        <p>Ces carnets du Népal commencent et finissent en Inde, à New Delhi. Il y a un mois, c’était la nuit, puis le matin, et le Népal était un royaume. Aujourd’hui, c’est l’après-midi, puis le soir, et le Népal est en passe de devenir une république. Mais dans la zone de transit, il n’y a pas de fenêtre – ni jour ni pays. Seule éclaire sans éclairer vraiment la lumière de nuit des néons. Ces deux passages à Delhi se confondent. Comme si j’avais rêvé le Népal qui s’efface dans l’intervalle.</p>
+                        <p>Les bruits de l’aéroport m’ont tenu éveillé le plus clair du temps. Est-ce l’effet des somnifères? – à un moment donné j’ai dû m’assoupir. Les minutes alors m’ont paru des semaines. Je me suis levé, somnambule. J’ai voyagé par air, par terre, par rivière. J’ai marché de villes en villages, de montagnes en forêts. J’étais au pays de l’éveil et je tombais de sommeil. Voyageur entre les mondes.</p>
+            </div>
+            <footer class="mt-16 pt-10 border-t border-slate-700/70 text-center">
+                <p class="text-slate-400 italic mb-8">
+                    <span class="lang-fr">Fin de l’extrait. Le livre compte trois autres carnets : Transports, Chambres, Terrasses, et une postface.</span>
+                    <span class="lang-en">End of excerpt. The book has three more notebooks (Transport, Rooms, Terraces) and an afterword.</span>
+                </p>
+                <div id="offresExtrait" class="offres"></div>
+            </footer>
+        </article>
     </div>
 
     <script src="script.js"></script>

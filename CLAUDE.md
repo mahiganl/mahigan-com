@@ -38,6 +38,19 @@ sous-titre, le titre, les descriptions de partage ou l'image de partage). Le con
 Sept couvertures en rangées centrées (`.livres`, flex) : 4 + 3 sur écran large, 3 + 3 + 1 sur
 tablette, 2 + 2 + 2 + 1 sur téléphone — pas de case vide décalée (demande de l'auteur).
 
+**Nouveauté à la une (octobre 2026) : Carnets du Népal**, édition de l'auteur, vendue sur le site.
+Bloc `.nouveaute` au-dessus de la grille : recto en grand, quatrième de couverture (panneau
+turquoise #1d7189, texte de `05 Présentation/Quatrième de couverture.md` du dossier du livre,
+traduit en anglais), puis l'achat. Livre numérique seulement (ePub + PDF, 9,99 $) : le livre
+papier (impression à la demande) est remis à plus tard. Prix et lien de paiement dans
+`booksData.carnetsnepal.offres` (script.js) : sans lien, le bouton dit « Bientôt disponible »
+(en attente des ISBN de BAnQ). Ne **jamais** mettre l'ePub ni le PDF dans ce dépôt : il est public sur GitHub.
+Couverture : `assets/book-covers/carnets-du-nepal.jpg` (1600 × 2400) et ses versions 600 / 900 px.
+« Lire un extrait » ouvre `#extraitModal` (index.html) : tout le premier carnet (« Aéroports »),
+tiré du texte maître, avec sa page manuscrite (`carnets-du-nepal-carnet-aeroports.jpg`), puis l'achat.
+Si le texte maître est corrigé, refaire l'extrait.
+Quand ce ne sera plus une nouveauté, le livre rejoint la grille `.livres` (8 couvertures : 4 + 4).
+
 ## Accueil : Kolkata, la nuit
 Photo de l'auteur (iPhone 4S, Kolkata, 2013) : un taxi jaune filé derrière une vitre mouillée.
 Source : `assets/theme-picture/sources/taxi-kolkata.jpg`. `outils/images.mjs` l'**étalonne** :

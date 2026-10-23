@@ -41,6 +41,11 @@ const travaux = [
     .map((f) => ({ src: `assets/book-covers/${f}`, sorties: [
       { fichier: `assets/book-covers/${f.replace(/\.(png|jpg)$/, '')}-600.jpg`, largeur: 600, format: 'image/jpeg', qualite: 0.84 },
     ] })),
+  // Carnets du Népal (nouveauté, affichée en grand) : 600 et 900 px.
+  { src: 'assets/book-covers/carnets-du-nepal.jpg', sorties: [
+    { fichier: 'assets/book-covers/carnets-du-nepal-600.jpg', largeur: 600, format: 'image/jpeg', qualite: 0.84 },
+    { fichier: 'assets/book-covers/carnets-du-nepal-900.jpg', largeur: 900, format: 'image/jpeg', qualite: 0.84 },
+  ] },
   // Dessin de L'obsolescence humaine programmée (sans titre, pour ne pas répéter celui de la carte) ;
   // étoile ✦ de Gemini retouchée.
   { src: 'assets/project-picture/sources/obsolescence-dessin.webp', retouche: { x: 1890, y: 1890, rayon: 50, decalage: -140 },
